@@ -1,6 +1,6 @@
 package gateway
 
-import "github.com/disgoorg/disgo/internal/flags"
+import "github.com/sabafly/disgo/internal/flags"
 
 // Intents is an extension of the Bit structure used when identifying with discord
 type Intents int64

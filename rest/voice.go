@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"github.com/disgoorg/disgo/discord"
+	"github.com/sabafly/disgo/discord"
 )
 
 var _ Voice = (*voiceImpl)(nil)

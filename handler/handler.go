@@ -23,10 +23,10 @@ import (
 
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/disgoorg/disgo/bot"
-	"github.com/disgoorg/disgo/discord"
-	"github.com/disgoorg/disgo/events"
-	"github.com/disgoorg/disgo/rest"
+	"github.com/sabafly/disgo/bot"
+	"github.com/sabafly/disgo/discord"
+	"github.com/sabafly/disgo/events"
+	"github.com/sabafly/disgo/rest"
 )
 
 // SyncCommands sets the given commands for the given guilds or globally if no guildIDs are empty. It will return on the first error for multiple guilds.

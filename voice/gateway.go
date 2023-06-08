@@ -15,7 +15,7 @@ import (
 	"github.com/disgoorg/snowflake/v2"
 	"github.com/gorilla/websocket"
 
-	"github.com/disgoorg/disgo/discord"
+	"github.com/sabafly/disgo/discord"
 )
 
 var (

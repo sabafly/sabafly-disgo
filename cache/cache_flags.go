@@ -1,6 +1,6 @@
 package cache
 
-import "github.com/disgoorg/disgo/internal/flags"
+import "github.com/sabafly/disgo/internal/flags"
 
 // Flags are used to enable/disable certain internal caches
 type Flags int

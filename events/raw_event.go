@@ -1,6 +1,6 @@
 package events
 
-import "github.com/disgoorg/disgo/gateway"
+import "github.com/sabafly/disgo/gateway"
 
 type Raw struct {
 	*GenericEvent

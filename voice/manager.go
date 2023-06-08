@@ -6,7 +6,7 @@ import (
 
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/disgoorg/disgo/gateway"
+	"github.com/sabafly/disgo/gateway"
 )
 
 type (

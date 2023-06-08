@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"github.com/disgoorg/disgo/bot"
-	"github.com/disgoorg/disgo/gateway"
-	"github.com/disgoorg/disgo/httpserver"
+	"github.com/sabafly/disgo/bot"
+	"github.com/sabafly/disgo/gateway"
+	"github.com/sabafly/disgo/httpserver"
 )
 
 // DefaultHTTPServerEventHandlerFunc is the default handler for the httpserver.Server and sends payloads to the bot.EventManager.

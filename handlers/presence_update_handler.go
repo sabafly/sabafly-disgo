@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"github.com/disgoorg/disgo/bot"
-	"github.com/disgoorg/disgo/gateway"
+	"github.com/sabafly/disgo/bot"
+	"github.com/sabafly/disgo/gateway"
 )
 
 func gatewayHandlerPresenceUpdate(client bot.Client, sequenceNumber int, shardID int, event gateway.EventPresenceUpdate) {

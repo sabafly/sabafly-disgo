@@ -1,8 +1,8 @@
 package events
 
 import (
-	"github.com/disgoorg/disgo/discord"
-	"github.com/disgoorg/disgo/gateway"
+	"github.com/sabafly/disgo/discord"
+	"github.com/sabafly/disgo/gateway"
 )
 
 type GenericAutoModerationRule struct {

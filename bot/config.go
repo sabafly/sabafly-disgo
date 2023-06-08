@@ -5,14 +5,14 @@ import (
 
 	"github.com/disgoorg/log"
 
-	"github.com/disgoorg/disgo/cache"
-	"github.com/disgoorg/disgo/discord"
-	"github.com/disgoorg/disgo/gateway"
-	"github.com/disgoorg/disgo/httpserver"
-	"github.com/disgoorg/disgo/internal/tokenhelper"
-	"github.com/disgoorg/disgo/rest"
-	"github.com/disgoorg/disgo/sharding"
-	"github.com/disgoorg/disgo/voice"
+	"github.com/sabafly/disgo/cache"
+	"github.com/sabafly/disgo/discord"
+	"github.com/sabafly/disgo/gateway"
+	"github.com/sabafly/disgo/httpserver"
+	"github.com/sabafly/disgo/internal/tokenhelper"
+	"github.com/sabafly/disgo/rest"
+	"github.com/sabafly/disgo/sharding"
+	"github.com/sabafly/disgo/voice"
 )
 
 // DefaultConfig returns a Config with sensible defaults.

@@ -3,10 +3,10 @@ package handlers
 import (
 	"time"
 
-	"github.com/disgoorg/disgo/bot"
-	"github.com/disgoorg/disgo/discord"
-	"github.com/disgoorg/disgo/events"
-	"github.com/disgoorg/disgo/gateway"
+	"github.com/sabafly/disgo/bot"
+	"github.com/sabafly/disgo/discord"
+	"github.com/sabafly/disgo/events"
+	"github.com/sabafly/disgo/gateway"
 )
 
 func gatewayHandlerChannelCreate(client bot.Client, sequenceNumber int, shardID int, event gateway.EventChannelCreate) {

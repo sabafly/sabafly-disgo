@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"github.com/disgoorg/disgo/bot"
-	"github.com/disgoorg/disgo/discord"
-	"github.com/disgoorg/disgo/events"
+	"github.com/sabafly/disgo/bot"
+	"github.com/sabafly/disgo/discord"
+	"github.com/sabafly/disgo/events"
 )
 
 type (

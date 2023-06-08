@@ -7,7 +7,7 @@ import (
 
 	"github.com/disgoorg/snowflake/v2"
 
-	botgateway "github.com/disgoorg/disgo/gateway"
+	botgateway "github.com/sabafly/disgo/gateway"
 )
 
 type (

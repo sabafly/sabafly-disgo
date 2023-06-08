@@ -3,7 +3,7 @@ package rest
 import (
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/disgoorg/disgo/discord"
+	"github.com/sabafly/disgo/discord"
 )
 
 var _ Users = (*userImpl)(nil)

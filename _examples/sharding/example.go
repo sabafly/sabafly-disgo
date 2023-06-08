@@ -8,12 +8,12 @@ import (
 
 	"github.com/disgoorg/log"
 
-	"github.com/disgoorg/disgo"
-	"github.com/disgoorg/disgo/bot"
-	"github.com/disgoorg/disgo/discord"
-	"github.com/disgoorg/disgo/events"
-	"github.com/disgoorg/disgo/gateway"
-	"github.com/disgoorg/disgo/sharding"
+	"github.com/sabafly/disgo"
+	"github.com/sabafly/disgo/bot"
+	"github.com/sabafly/disgo/discord"
+	"github.com/sabafly/disgo/events"
+	"github.com/sabafly/disgo/gateway"
+	"github.com/sabafly/disgo/sharding"
 )
 
 var (

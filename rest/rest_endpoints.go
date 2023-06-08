@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/disgoorg/disgo/discord"
+	"github.com/sabafly/disgo/discord"
 )
 
 var (

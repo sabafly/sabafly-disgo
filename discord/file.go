@@ -9,7 +9,7 @@ import (
 
 	"github.com/disgoorg/json"
 
-	"github.com/disgoorg/disgo/internal/flags"
+	"github.com/sabafly/disgo/internal/flags"
 )
 
 type Payload interface {

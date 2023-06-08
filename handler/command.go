@@ -3,9 +3,9 @@ package handler
 import (
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/disgoorg/disgo/discord"
-	"github.com/disgoorg/disgo/events"
-	"github.com/disgoorg/disgo/rest"
+	"github.com/sabafly/disgo/discord"
+	"github.com/sabafly/disgo/events"
+	"github.com/sabafly/disgo/rest"
 )
 
 type CommandEvent struct {

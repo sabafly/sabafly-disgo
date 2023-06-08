@@ -3,7 +3,7 @@ package events
 import (
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/disgoorg/disgo/discord"
+	"github.com/sabafly/disgo/discord"
 )
 
 // UserStatusUpdate generic Status event
