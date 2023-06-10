@@ -169,11 +169,11 @@ type ChannelFollowerWebhook struct {
 	id            snowflake.ID
 	name          string
 	avatar        *string
-	ChannelID     snowflake.ID         `json:"channel_id"`
-	GuildID       snowflake.ID         `json:"guild_id"`
-	SourceGuild   WebhookSourceGuild   `json:"source_guild"`
-	SourceChannel WebhookSourceChannel `json:"source_channel"`
-	User          User                 `json:"user"`
+	ChannelID     snowflake.ID          `json:"channel_id"`
+	GuildID       snowflake.ID          `json:"guild_id"`
+	SourceGuild   *WebhookSourceGuild   `json:"source_guild"`
+	SourceChannel *WebhookSourceChannel `json:"source_channel"`
+	User          User                  `json:"user"`
 }
 
 func (w *ChannelFollowerWebhook) UnmarshalJSON(data []byte) error {
@@ -331,9 +331,9 @@ func (w ApplicationWebhook) CreatedAt() time.Time {
 func (ApplicationWebhook) webhook() {}
 
 type WebhookSourceGuild struct {
-	ID   snowflake.ID         `json:"id"`
-	Name string               `json:"name"`
-	Icon *json.Nullable[Icon] `json:"icon"`
+	ID   snowflake.ID `json:"id"`
+	Name string       `json:"name"`
+	Icon *string      `json:"icon"`
 }
 
 type WebhookSourceChannel struct {

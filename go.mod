@@ -1,6 +1,6 @@
 module github.com/sabafly/disgo
 
-go 1.18
+go 1.20
 
 require (
 	github.com/disgoorg/json v1.1.0
