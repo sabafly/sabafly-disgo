@@ -2,9 +2,15 @@ package events
 
 import (
 	"github.com/disgoorg/snowflake/v2"
+	"github.com/sabafly/disgo/gateway"
 
 	"github.com/sabafly/disgo/discord"
 )
+
+type PresenceUpdate struct {
+	*GenericEvent
+	gateway.EventPresenceUpdate
+}
 
 // GenericUserActivity generic Activity event
 type GenericUserActivity struct {
