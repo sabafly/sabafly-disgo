@@ -31,7 +31,6 @@ const (
 	ChannelTypeGuildStageVoice
 	ChannelTypeGuildDirectory
 	ChannelTypeGuildForum
-	ChannelTypeGuildMedia
 )
 
 type ChannelFlags int
@@ -206,11 +205,6 @@ func (u *UnmarshalChannel) UnmarshalJSON(data []byte) error {
 
 	case ChannelTypeGuildForum:
 		var v GuildForumChannel
-		err = json.Unmarshal(data, &v)
-		channel = v
-
-	case ChannelTypeGuildMedia:
-		var v GuildMediaChannel
 		err = json.Unmarshal(data, &v)
 		channel = v
 
@@ -1141,115 +1135,6 @@ func (c GuildForumChannel) CreatedAt() time.Time {
 
 func (GuildForumChannel) channel()      {}
 func (GuildForumChannel) guildChannel() {}
-
-type GuildMediaChannel struct {
-	id                            snowflake.ID
-	guildID                       snowflake.ID
-	position                      int
-	permissionOverwrites          PermissionOverwrites
-	name                          string
-	parentID                      *snowflake.ID
-	LastThreadID                  *snowflake.ID
-	Topic                         *string
-	NSFW                          bool
-	RateLimitPerUser              int
-	Flags                         ChannelFlags
-	AvailableTags                 []ForumTag
-	DefaultReactionEmoji          *DefaultReactionEmoji
-	DefaultThreadRateLimitPerUser int
-	DefaultSortOrder              *DefaultSortOrder
-	DefaultForumLayout            DefaultForumLayout
-}
-
-func (c *GuildMediaChannel) UnmarshalJSON(data []byte) error {
-	var v guildForumChannel
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	c.id = v.ID
-	c.guildID = v.GuildID
-	c.position = v.Position
-	c.permissionOverwrites = v.PermissionOverwrites
-	c.name = v.Name
-	c.parentID = v.ParentID
-	c.LastThreadID = v.LastThreadID
-	c.Topic = v.Topic
-	c.NSFW = v.NSFW
-	c.RateLimitPerUser = v.RateLimitPerUser
-	c.Flags = v.Flags
-	c.AvailableTags = v.AvailableTags
-	c.DefaultReactionEmoji = v.DefaultReactionEmoji
-	c.DefaultThreadRateLimitPerUser = v.DefaultThreadRateLimitPerUser
-	c.DefaultSortOrder = v.DefaultSortOrder
-	c.DefaultForumLayout = v.DefaultForumLayout
-	return nil
-}
-
-func (c GuildMediaChannel) MarshalJSON() ([]byte, error) {
-	return json.Marshal(guildForumChannel{
-		ID:                            c.id,
-		Type:                          c.Type(),
-		GuildID:                       c.guildID,
-		Position:                      c.position,
-		PermissionOverwrites:          c.permissionOverwrites,
-		Name:                          c.name,
-		ParentID:                      c.parentID,
-		LastThreadID:                  c.LastThreadID,
-		Topic:                         c.Topic,
-		NSFW:                          c.NSFW,
-		RateLimitPerUser:              c.RateLimitPerUser,
-		Flags:                         c.Flags,
-		AvailableTags:                 c.AvailableTags,
-		DefaultReactionEmoji:          c.DefaultReactionEmoji,
-		DefaultThreadRateLimitPerUser: c.DefaultThreadRateLimitPerUser,
-		DefaultSortOrder:              c.DefaultSortOrder,
-		DefaultForumLayout:            c.DefaultForumLayout,
-	})
-}
-
-func (c GuildMediaChannel) String() string {
-	return channelString(c)
-}
-
-func (c GuildMediaChannel) Mention() string {
-	return ChannelMention(c.ID())
-}
-
-func (GuildMediaChannel) Type() ChannelType {
-	return ChannelTypeGuildMedia
-}
-
-func (c GuildMediaChannel) ID() snowflake.ID {
-	return c.id
-}
-
-func (c GuildMediaChannel) Name() string {
-	return c.name
-}
-
-func (c GuildMediaChannel) GuildID() snowflake.ID {
-	return c.guildID
-}
-
-func (c GuildMediaChannel) PermissionOverwrites() PermissionOverwrites {
-	return c.permissionOverwrites
-}
-
-func (c GuildMediaChannel) Position() int {
-	return c.position
-}
-
-func (c GuildMediaChannel) ParentID() *snowflake.ID {
-	return c.parentID
-}
-
-func (c GuildMediaChannel) CreatedAt() time.Time {
-	return c.id.Time()
-}
-
-func (GuildMediaChannel) channel()      {}
-func (GuildMediaChannel) guildChannel() {}
 
 type FollowedChannel struct {
 	ChannelID snowflake.ID `json:"channel_id"`
