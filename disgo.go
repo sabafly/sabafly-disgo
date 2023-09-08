@@ -50,17 +50,17 @@ import (
 	"runtime/debug"
 	"strings"
 
-	"github.com/sabafly/disgo/bot"
-	"github.com/sabafly/disgo/handlers"
+	"github.com/sabafly/sabafly-disgo/bot"
+	"github.com/sabafly/sabafly-disgo/handlers"
 )
 
 const (
 	// Name is the library name
 	Name = "disgo"
 	// Module is the library module name
-	Module = "github.com/sabafly/disgo"
+	Module = "github.com/sabafly/sabafly-disgo"
 	// GitHub is a link to the libraries GitHub repository
-	GitHub = "https://github.com/sabafly/disgo"
+	GitHub = "https://github.com/sabafly/sabafly-disgo"
 )
 
 var (

@@ -6,14 +6,14 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/sabafly/disgo"
-	"github.com/sabafly/disgo/bot"
-	"github.com/sabafly/disgo/events"
+	"github.com/sabafly/sabafly-disgo"
+	"github.com/sabafly/sabafly-disgo/bot"
+	"github.com/sabafly/sabafly-disgo/events"
 
 	"github.com/disgoorg/log"
 
-	"github.com/sabafly/disgo/discord"
-	"github.com/sabafly/disgo/gateway"
+	"github.com/sabafly/sabafly-disgo/discord"
+	"github.com/sabafly/sabafly-disgo/gateway"
 )
 
 var (

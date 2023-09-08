@@ -3,9 +3,9 @@ package handler
 import (
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/sabafly/disgo/discord"
-	"github.com/sabafly/disgo/events"
-	"github.com/sabafly/disgo/rest"
+	"github.com/sabafly/sabafly-disgo/discord"
+	"github.com/sabafly/sabafly-disgo/events"
+	"github.com/sabafly/sabafly-disgo/rest"
 )
 
 type ComponentEvent struct {

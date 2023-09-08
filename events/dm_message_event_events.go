@@ -3,7 +3,7 @@ package events
 import (
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/sabafly/disgo/discord"
+	"github.com/sabafly/sabafly-disgo/discord"
 )
 
 // GenericDMMessage is called upon receiving DMMessageCreate , DMMessageUpdate , DMMessageDelete , GenericDMMessageReaction , DMMessageReactionAdd , DMMessageReactionRemove , DMMessageReactionRemoveEmoji or DMMessageReactionRemoveAll (requires gateway.IntentsDirectMessage)

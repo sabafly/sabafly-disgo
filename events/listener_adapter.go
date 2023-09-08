@@ -1,7 +1,7 @@
 package events
 
 import (
-	"github.com/sabafly/disgo/bot"
+	"github.com/sabafly/sabafly-disgo/bot"
 )
 
 var _ bot.EventListener = (*ListenerAdapter)(nil)

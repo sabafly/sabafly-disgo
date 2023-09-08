@@ -1,8 +1,8 @@
-[![Go Reference](https://pkg.go.dev/badge/github.com/sabafly/disgo.svg)](https://pkg.go.dev/github.com/sabafly/disgo)
-[![Go Report](https://goreportcard.com/badge/github.com/sabafly/disgo)](https://goreportcard.com/report/github.com/sabafly/disgo)
+[![Go Reference](https://pkg.go.dev/badge/github.com/sabafly/sabafly-disgo.svg)](https://pkg.go.dev/github.com/sabafly/sabafly-disgo)
+[![Go Report](https://goreportcard.com/badge/github.com/sabafly/sabafly-disgo)](https://goreportcard.com/report/github.com/sabafly/sabafly-disgo)
 [![Go Version](https://img.shields.io/github/go-mod/go-version/disgoorg/disgo)](https://golang.org/doc/devel/release.html)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/sabafly/disgo/blob/master/LICENSE)
-[![DisGo Version](https://img.shields.io/github/v/tag/disgoorg/disgo?label=release)](https://github.com/sabafly/disgo/releases/latest)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/sabafly/sabafly-disgo/blob/master/LICENSE)
+[![DisGo Version](https://img.shields.io/github/v/tag/disgoorg/disgo?label=release)](https://github.com/sabafly/sabafly-disgo/releases/latest)
 [![DisGo Discord](https://discord.com/api/guilds/817327181659111454/widget.png)](https://discord.gg/TewhTfDpvW)
 
 <img align="right" src="/.github/discord_gopher.png" width=192 alt="discord gopher">
@@ -51,14 +51,14 @@ After v1 is released breaking changes may only happen if the Discord API require
 
 ### Missing Features
 
-* [RPC](https://discord.com/developers/docs/topics/rpc) (https://github.com/sabafly/disgo/pull/170)
+* [RPC](https://discord.com/developers/docs/topics/rpc) (https://github.com/sabafly/sabafly-disgo/pull/170)
 
 ## Getting Started
 
 ### Installing
 
 ```sh
-$ go get github.com/sabafly/disgo
+$ go get github.com/sabafly/sabafly-disgo
 ```
 
 ### Building a DisGo Instance
@@ -73,10 +73,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/sabafly/disgo"
-	"github.com/sabafly/disgo/bot"
-	"github.com/sabafly/disgo/events"
-	"github.com/sabafly/disgo/gateway"
+	"github.com/sabafly/sabafly-disgo"
+	"github.com/sabafly/sabafly-disgo/bot"
+	"github.com/sabafly/sabafly-disgo/events"
+	"github.com/sabafly/sabafly-disgo/gateway"
 )
 
 func main() {
@@ -111,7 +111,7 @@ func main() {
 
 ### Full Ping Pong Example
 
-A full Ping Pong example can also be found [here](https://github.com/sabafly/disgo/blob/master/_examples/ping_pong/example.go)
+A full Ping Pong example can also be found [here](https://github.com/sabafly/sabafly-disgo/blob/master/_examples/ping_pong/example.go)
 
 ### Logging
 
@@ -121,20 +121,20 @@ DisGo uses our own small [logging interface](https://github.com/disgoorg/log) wh
 
 Documentation is wip and can be found under
 
-* [![Go Reference](https://pkg.go.dev/badge/github.com/sabafly/disgo.svg)](https://pkg.go.dev/github.com/sabafly/disgo)
+* [![Go Reference](https://pkg.go.dev/badge/github.com/sabafly/sabafly-disgo.svg)](https://pkg.go.dev/github.com/sabafly/sabafly-disgo)
 * [![Discord Documentation](https://img.shields.io/badge/Discord%20Documentation-blue.svg)](https://discord.com/developers/docs)
 
 GitHub Wiki is currently under construction. We appreciate help here.
 
 ## Examples
 
-You can find examples [here](https://github.com/sabafly/disgo/tree/master/_examples)
+You can find examples [here](https://github.com/sabafly/sabafly-disgo/tree/master/_examples)
 
 There is also a bot template with commands & db [here](https://github.com/disgoorg/bot-template)
 
 or in these projects:
 
-* [DisGo-Butler](https://github.com/sabafly/disgo-butler)
+* [DisGo-Butler](https://github.com/sabafly/sabafly-disgo-butler)
 * [Reddit-Discord-Bot](https://github.com/TopiSenpai/Reddit-Discord-Bot)
 * [Kitsune-Bot](https://github.com/TopiSenpai/Kitsune-Bot)
 * [KittyBot](https://github.com/KittyBot-Org/KittyBotGo)
@@ -148,11 +148,11 @@ or in these projects:
 
 ### [Lavalink](https://github.com/freyacodes/Lavalink)
 
-Is a standalone audio sending node based on [Lavaplayer](https://github.com/sedmelluq/lavaplayer) and JDA-Audio. Which allows for sending audio without it ever reaching any of your shards. Lavalink can be used in combination with [DisGolink](https://github.com/sabafly/disgolink) for music Bots
+Is a standalone audio sending node based on [Lavaplayer](https://github.com/sedmelluq/lavaplayer) and JDA-Audio. Which allows for sending audio without it ever reaching any of your shards. Lavalink can be used in combination with [DisGolink](https://github.com/sabafly/sabafly-disgolink) for music Bots
 
 Being used in production by FredBoat, Dyno, LewdBot, and more.
 
-### [DisGolink](https://github.com/sabafly/disgolink)
+### [DisGolink](https://github.com/sabafly/sabafly-disgolink)
 
 Is a [Lavalink-Client](https://github.com/freyacodes/Lavalink) which can be used to communicate with Lavalink to play/search tracks
 
@@ -177,7 +177,7 @@ Contributions are welcomed but for bigger changes we recommend first reaching ou
 
 ## License
 
-Distributed under the [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/sabafly/disgo/blob/master/LICENSE). See LICENSE for more information.
+Distributed under the [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/sabafly/sabafly-disgo/blob/master/LICENSE). See LICENSE for more information.
 
 ## Supported by Jetbrains
 

@@ -10,11 +10,11 @@ import (
 	"github.com/disgoorg/snowflake/v2"
 	"github.com/oasisprotocol/curve25519-voi/primitives/ed25519"
 
-	"github.com/sabafly/disgo"
-	"github.com/sabafly/disgo/bot"
-	"github.com/sabafly/disgo/discord"
-	"github.com/sabafly/disgo/events"
-	"github.com/sabafly/disgo/httpserver"
+	"github.com/sabafly/sabafly-disgo"
+	"github.com/sabafly/sabafly-disgo/bot"
+	"github.com/sabafly/sabafly-disgo/discord"
+	"github.com/sabafly/sabafly-disgo/events"
+	"github.com/sabafly/sabafly-disgo/httpserver"
 )
 
 var (

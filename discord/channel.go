@@ -7,7 +7,7 @@ import (
 	"github.com/disgoorg/json"
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/sabafly/disgo/internal/flags"
+	"github.com/sabafly/sabafly-disgo/internal/flags"
 )
 
 // ChannelType for interacting with discord's channels

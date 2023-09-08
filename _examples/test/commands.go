@@ -3,8 +3,8 @@ package main
 import (
 	"github.com/disgoorg/log"
 
-	"github.com/sabafly/disgo/bot"
-	"github.com/sabafly/disgo/discord"
+	"github.com/sabafly/sabafly-disgo/bot"
+	"github.com/sabafly/sabafly-disgo/discord"
 )
 
 var commands = []discord.ApplicationCommandCreate{

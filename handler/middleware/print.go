@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"github.com/sabafly/disgo/events"
-	"github.com/sabafly/disgo/handler"
+	"github.com/sabafly/sabafly-disgo/events"
+	"github.com/sabafly/sabafly-disgo/handler"
 )
 
 func Print(content string) handler.Middleware {

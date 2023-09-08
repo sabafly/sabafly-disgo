@@ -6,8 +6,8 @@ import (
 
 	"github.com/disgoorg/log"
 
-	"github.com/sabafly/disgo"
-	"github.com/sabafly/disgo/rest"
+	"github.com/sabafly/sabafly-disgo"
+	"github.com/sabafly/sabafly-disgo/rest"
 )
 
 var token = os.Getenv("disgo_token")

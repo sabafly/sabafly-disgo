@@ -11,10 +11,10 @@ import (
 	"github.com/disgoorg/log"
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/sabafly/disgo"
-	"github.com/sabafly/disgo/discord"
-	"github.com/sabafly/disgo/oauth2"
-	"github.com/sabafly/disgo/rest"
+	"github.com/sabafly/sabafly-disgo"
+	"github.com/sabafly/sabafly-disgo/discord"
+	"github.com/sabafly/sabafly-disgo/oauth2"
+	"github.com/sabafly/sabafly-disgo/rest"
 )
 
 var (

@@ -3,9 +3,9 @@ package handler
 import (
 	"strings"
 
-	"github.com/sabafly/disgo/bot"
-	"github.com/sabafly/disgo/discord"
-	"github.com/sabafly/disgo/events"
+	"github.com/sabafly/sabafly-disgo/bot"
+	"github.com/sabafly/sabafly-disgo/discord"
+	"github.com/sabafly/sabafly-disgo/events"
 )
 
 var defaultErrorHandler = func(e *events.InteractionCreate, err error) {

@@ -3,11 +3,11 @@ package handlers
 import (
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/sabafly/disgo/bot"
-	"github.com/sabafly/disgo/cache"
-	"github.com/sabafly/disgo/discord"
-	"github.com/sabafly/disgo/events"
-	"github.com/sabafly/disgo/gateway"
+	"github.com/sabafly/sabafly-disgo/bot"
+	"github.com/sabafly/sabafly-disgo/cache"
+	"github.com/sabafly/sabafly-disgo/discord"
+	"github.com/sabafly/sabafly-disgo/events"
+	"github.com/sabafly/sabafly-disgo/gateway"
 )
 
 type updatedSticker struct {

@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"github.com/sabafly/disgo/bot"
-	"github.com/sabafly/disgo/discord"
-	"github.com/sabafly/disgo/httpserver"
+	"github.com/sabafly/sabafly-disgo/bot"
+	"github.com/sabafly/sabafly-disgo/discord"
+	"github.com/sabafly/sabafly-disgo/httpserver"
 )
 
 var _ bot.HTTPServerEventHandler = (*httpserverHandlerInteractionCreate)(nil)

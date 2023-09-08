@@ -1,4 +1,4 @@
-module github.com/sabafly/disgo
+module github.com/sabafly/sabafly-disgo
 
 go 1.20
 

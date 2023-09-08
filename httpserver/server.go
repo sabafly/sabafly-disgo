@@ -12,7 +12,7 @@ import (
 	"github.com/disgoorg/json"
 	"github.com/disgoorg/log"
 
-	"github.com/sabafly/disgo/discord"
+	"github.com/sabafly/sabafly-disgo/discord"
 )
 
 type (

@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"github.com/sabafly/disgo/bot"
-	"github.com/sabafly/disgo/events"
-	"github.com/sabafly/disgo/gateway"
+	"github.com/sabafly/sabafly-disgo/bot"
+	"github.com/sabafly/sabafly-disgo/events"
+	"github.com/sabafly/sabafly-disgo/gateway"
 )
 
 func gatewayHandlerIntegrationCreate(client bot.Client, sequenceNumber int, shardID int, event gateway.EventIntegrationCreate) {

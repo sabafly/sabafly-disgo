@@ -5,7 +5,7 @@ import (
 	"io"
 
 	"github.com/disgoorg/snowflake/v2"
-	"github.com/sabafly/disgo/internal/builtin"
+	"github.com/sabafly/sabafly-disgo/internal/builtin"
 )
 
 type MessageBuilder interface {

@@ -7,7 +7,7 @@ import (
 
 	"github.com/disgoorg/json"
 
-	"github.com/sabafly/disgo/internal/flags"
+	"github.com/sabafly/sabafly-disgo/internal/flags"
 )
 
 var EmptyStringBytes = []byte(`""`)

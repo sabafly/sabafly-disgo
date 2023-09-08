@@ -5,7 +5,7 @@ import (
 
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/sabafly/disgo/gateway"
+	"github.com/sabafly/sabafly-disgo/gateway"
 )
 
 // ShardManager manages multiple gateway.Gateway connections.
