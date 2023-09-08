@@ -334,6 +334,28 @@ func (m Message) JumpURL() string {
 	return fmt.Sprintf(MessageURLFmt, guildID, m.ChannelID, m.ID) // duplicate code, but there isn't a better way without sacrificing user convenience
 }
 
+func (m Message) Builder() MessageBuilder {
+	return &messageBuilderImpl{
+		MessageCreate: MessageCreate{
+			Content:          m.Content,
+			TTS:              m.TTS,
+			Embeds:           m.Embeds,
+			Components:       m.Components,
+			StickerIDs:       sticker2ids(m.StickerItems),
+			MessageReference: m.MessageReference,
+			Flags:            m.Flags,
+		},
+	}
+}
+
+func sticker2ids(s []MessageSticker) []snowflake.ID {
+	v := make([]snowflake.ID, len(s))
+	for i, ms := range s {
+		v[i] = ms.ID
+	}
+	return v
+}
+
 type MessageThread struct {
 	GuildThread
 	Member ThreadMember `json:"member"`

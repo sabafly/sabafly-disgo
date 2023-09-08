@@ -40,14 +40,14 @@ func handleInteraction(client bot.Client, sequenceNumber int, shardID int, respo
 		client.EventManager().DispatchEvent(&events.ApplicationCommandInteractionCreate{
 			GenericEvent:                  genericEvent,
 			ApplicationCommandInteraction: i,
-			Respond:                       respond(client, respondFunc, interaction),
+			RespondFunc:                   respond(client, respondFunc, interaction),
 		})
 
 	case discord.ComponentInteraction:
 		client.EventManager().DispatchEvent(&events.ComponentInteractionCreate{
 			GenericEvent:         genericEvent,
 			ComponentInteraction: i,
-			Respond:              respond(client, respondFunc, interaction),
+			RespondFunc:          respond(client, respondFunc, interaction),
 		})
 
 	case discord.AutocompleteInteraction:
@@ -61,7 +61,7 @@ func handleInteraction(client bot.Client, sequenceNumber int, shardID int, respo
 		client.EventManager().DispatchEvent(&events.ModalSubmitInteractionCreate{
 			GenericEvent:           genericEvent,
 			ModalSubmitInteraction: i,
-			Respond:                respond(client, respondFunc, interaction),
+			RespondFunc:            respond(client, respondFunc, interaction),
 		})
 
 	default:

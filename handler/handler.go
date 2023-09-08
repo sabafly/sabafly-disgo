@@ -78,7 +78,7 @@ func (h *handlerHolder[T]) Handle(path string, variables map[string]string, even
 			ApplicationCommandInteractionCreate: &events.ApplicationCommandInteractionCreate{
 				GenericEvent:                  event.GenericEvent,
 				ApplicationCommandInteraction: event.Interaction.(discord.ApplicationCommandInteraction),
-				Respond:                       event.Respond,
+				RespondFunc:                   event.Respond,
 			},
 			Variables: variables,
 		})
@@ -96,7 +96,7 @@ func (h *handlerHolder[T]) Handle(path string, variables map[string]string, even
 			ComponentInteractionCreate: &events.ComponentInteractionCreate{
 				GenericEvent:         event.GenericEvent,
 				ComponentInteraction: event.Interaction.(discord.ComponentInteraction),
-				Respond:              event.Respond,
+				RespondFunc:          event.Respond,
 			},
 			Variables: variables,
 		})
@@ -105,7 +105,7 @@ func (h *handlerHolder[T]) Handle(path string, variables map[string]string, even
 			ModalSubmitInteractionCreate: &events.ModalSubmitInteractionCreate{
 				GenericEvent:           event.GenericEvent,
 				ModalSubmitInteraction: event.Interaction.(discord.ModalSubmitInteraction),
-				Respond:                event.Respond,
+				RespondFunc:            event.Respond,
 			},
 			Variables: variables,
 		})

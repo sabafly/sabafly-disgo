@@ -64,7 +64,10 @@ const (
 	PermissionUseExternalSounds
 	PermissionSendVoiceMessages
 
-	PermissionsAllText = PermissionViewChannel |
+	PermissionsAllText = PermissionCreateInstantInvite |
+		PermissionManageChannels |
+		PermissionAddReactions |
+		PermissionViewChannel |
 		PermissionSendMessages |
 		PermissionSendTTSMessages |
 		PermissionManageMessages |
@@ -72,39 +75,96 @@ const (
 		PermissionAttachFiles |
 		PermissionReadMessageHistory |
 		PermissionMentionEveryone |
-		PermissionSendVoiceMessages
-
-	PermissionsAllThread = PermissionManageThreads |
+		PermissionUseExternalEmojis |
+		PermissionManageRoles |
+		PermissionManageWebhooks |
+		PermissionUseApplicationCommands |
+		PermissionManageThreads |
 		PermissionCreatePublicThreads |
 		PermissionCreatePrivateThreads |
-		PermissionSendMessagesInThreads
+		PermissionUseExternalStickers |
+		PermissionSendMessagesInThreads |
+		PermissionUseEmbeddedActivities |
+		PermissionSendVoiceMessages
 
-	PermissionsAllVoice = PermissionViewChannel |
+	PermissionsAllVoice = PermissionCreateInstantInvite |
+		PermissionManageChannels |
+		PermissionAddReactions |
+		PermissionPrioritySpeaker |
+		PermissionStream |
+		PermissionViewChannel |
+		PermissionSendMessages |
+		PermissionSendTTSMessages |
+		PermissionManageMessages |
+		PermissionEmbedLinks |
+		PermissionAttachFiles |
+		PermissionReadMessageHistory |
+		PermissionMentionEveryone |
+		PermissionUseExternalEmojis |
 		PermissionConnect |
 		PermissionSpeak |
-		PermissionStream |
 		PermissionMuteMembers |
 		PermissionDeafenMembers |
 		PermissionMoveMembers |
 		PermissionUseVAD |
-		PermissionPrioritySpeaker |
+		PermissionManageRoles |
+		PermissionManageWebhooks |
+		PermissionUseApplicationCommands |
+		PermissionManageEvents |
+		PermissionUseExternalStickers |
+		PermissionUseEmbeddedActivities |
 		PermissionUseSoundboard |
 		PermissionUseExternalSounds |
-		PermissionRequestToSpeak |
-		PermissionUseEmbeddedActivities
+		PermissionSendVoiceMessages
 
-	PermissionsAllChannel = PermissionsAllText |
-		PermissionsAllThread |
-		PermissionsAllVoice |
-		PermissionCreateInstantInvite |
+	PermissionsAllStage = PermissionCreateInstantInvite |
 		PermissionManageChannels |
 		PermissionAddReactions |
+		PermissionStream |
+		PermissionViewChannel |
+		PermissionSendMessages |
+		PermissionManageMessages |
+		PermissionEmbedLinks |
+		PermissionAttachFiles |
+		PermissionReadMessageHistory |
+		PermissionMentionEveryone |
 		PermissionUseExternalEmojis |
+		PermissionConnect |
+		PermissionMuteMembers |
+		PermissionMoveMembers |
+		PermissionManageRoles |
+		PermissionManageWebhooks |
 		PermissionUseApplicationCommands |
-		PermissionUseExternalStickers
+		PermissionRequestToSpeak |
+		PermissionManageEvents |
+		PermissionUseExternalStickers |
+		PermissionSendVoiceMessages
 
-	PermissionsAll = PermissionsAllChannel |
-		PermissionKickMembers |
+	PermissionsAllForum = PermissionCreateInstantInvite |
+		PermissionManageChannels |
+		PermissionAddReactions |
+		PermissionViewChannel |
+		PermissionSendMessages |
+		PermissionSendTTSMessages |
+		PermissionManageMessages |
+		PermissionEmbedLinks |
+		PermissionAttachFiles |
+		PermissionReadMessageHistory |
+		PermissionMentionEveryone |
+		PermissionUseExternalEmojis |
+		PermissionManageRoles |
+		PermissionManageWebhooks |
+		PermissionUseApplicationCommands |
+		PermissionManageThreads |
+		PermissionUseExternalStickers |
+		PermissionUseEmbeddedActivities |
+		PermissionSendVoiceMessages
+
+	PermissionsAllChannel = PermissionsAllText |
+		PermissionsAllVoice |
+		PermissionsAllStage
+
+	PermissionsAllGuild = PermissionKickMembers |
 		PermissionBanMembers |
 		PermissionManageGuild |
 		PermissionAdministrator |
@@ -119,55 +179,57 @@ const (
 		PermissionManageEvents |
 		PermissionModerateMembers
 
+	PermissionsAll = PermissionsAllChannel |
+		PermissionsAllGuild
+
 	PermissionsNone Permissions = 0
 )
 
 var permissions = map[Permissions]string{
-	PermissionCreateInstantInvite:              "Create Instant Invite",
-	PermissionKickMembers:                      "Kick Members",
-	PermissionBanMembers:                       "Ban Members",
-	PermissionAdministrator:                    "Administrator",
-	PermissionManageChannels:                   "Manage Channels",
-	PermissionManageGuild:                      "Manage Server",
-	PermissionAddReactions:                     "Add Reactions",
-	PermissionViewAuditLog:                     "View Audit Logs",
-	PermissionViewChannel:                      "View Channel",
-	PermissionSendMessages:                     "Send Messages",
-	PermissionSendTTSMessages:                  "Send TTS Messages",
-	PermissionManageMessages:                   "Manage Messages",
-	PermissionEmbedLinks:                       "Embed Links",
-	PermissionAttachFiles:                      "Attach Files",
-	PermissionReadMessageHistory:               "Read Message History",
-	PermissionMentionEveryone:                  "Mention Everyone",
-	PermissionUseExternalEmojis:                "Use External Emojis",
-	PermissionConnect:                          "Connect",
-	PermissionSpeak:                            "Speak",
-	PermissionMuteMembers:                      "Mute Members",
-	PermissionDeafenMembers:                    "Deafen Members",
-	PermissionMoveMembers:                      "Move Members",
-	PermissionUseVAD:                           "Use Voice Activity",
-	PermissionPrioritySpeaker:                  "Priority Speaker",
-	PermissionChangeNickname:                   "Change Nickname",
-	PermissionManageNicknames:                  "Manage Nicknames",
-	PermissionManageRoles:                      "Manage Roles",
-	PermissionManageWebhooks:                   "Manage Webhooks",
-	PermissionManageGuildExpressions:           "Manage Expressions",
-	PermissionUseApplicationCommands:           "Use Application Commands",
-	PermissionRequestToSpeak:                   "Request to Speak",
-	PermissionManageEvents:                     "Manage Events",
-	PermissionManageThreads:                    "Manage Threads",
-	PermissionCreatePublicThreads:              "Create Public Threads",
-	PermissionCreatePrivateThreads:             "Create Private Threads",
-	PermissionUseExternalStickers:              "Use External Stickers",
-	PermissionSendMessagesInThreads:            "Send Messages in Threads",
-	PermissionUseEmbeddedActivities:            "Use Activities",
-	PermissionModerateMembers:                  "Moderate Members",
-	PermissionViewCreatorMonetizationAnalytics: "View Creator Monetization Analytics",
-	PermissionUseSoundboard:                    "Use Soundboard",
-	PermissionUseExternalSounds:                "Use External Sounds",
-	PermissionStream:                           "Video",
-	PermissionViewGuildInsights:                "View Server Insights",
-	PermissionSendVoiceMessages:                "Send Voice Messages",
+	PermissionCreateInstantInvite:              "CREATE_INSTANT_INVITE",
+	PermissionKickMembers:                      "KICK_MEMBERS",
+	PermissionBanMembers:                       "BAN_MEMBERS",
+	PermissionAdministrator:                    "ADMINISTRATOR",
+	PermissionManageChannels:                   "MANAGE_CHANNELS",
+	PermissionManageGuild:                      "MANAGE_GUILD",
+	PermissionAddReactions:                     "ADD_REACTIONS",
+	PermissionViewAuditLog:                     "VIEW_AUDIT_LOG",
+	PermissionPrioritySpeaker:                  "PRIORITY_SPEAKER",
+	PermissionStream:                           "STREAM",
+	PermissionViewChannel:                      "VIEW_CHANNEL",
+	PermissionSendMessages:                     "SEND_MESSAGES",
+	PermissionSendTTSMessages:                  "SEND_TTS_MESSAGES",
+	PermissionManageMessages:                   "MANAGE_MESSAGES",
+	PermissionEmbedLinks:                       "EMBED_LINKS",
+	PermissionAttachFiles:                      "ATTACH_FILES",
+	PermissionReadMessageHistory:               "READ_MESSAGE_HISTORY",
+	PermissionMentionEveryone:                  "MENTION_EVERYONE",
+	PermissionUseExternalEmojis:                "USE_EXTERNAL_EMOJIS",
+	PermissionViewGuildInsights:                "VIEW_GUILD_INSIGHTS",
+	PermissionConnect:                          "CONNECT",
+	PermissionSpeak:                            "SPEAK",
+	PermissionMuteMembers:                      "MUTE_MEMBERS",
+	PermissionDeafenMembers:                    "DEAFEN_MEMBERS",
+	PermissionMoveMembers:                      "MOVE_MEMBERS",
+	PermissionUseVAD:                           "USE_VAD",
+	PermissionChangeNickname:                   "CHANGE_NICKNAME",
+	PermissionManageNicknames:                  "MANAGE_NICKNAMES",
+	PermissionManageRoles:                      "MANAGE_ROLES",
+	PermissionManageWebhooks:                   "MANAGE_WEBHOOKS",
+	PermissionManageGuildExpressions:           "MANAGE_GUILD_EXPRESSIONS",
+	PermissionUseApplicationCommands:           "USE_APPLICATION_COMMANDS",
+	PermissionRequestToSpeak:                   "REQUEST_TO_SPEAK",
+	PermissionManageEvents:                     "MANAGE_EVENTS",
+	PermissionManageThreads:                    "MANAGE_THREADS",
+	PermissionCreatePublicThreads:              "CREATE_PUBLIC_THREADS",
+	PermissionCreatePrivateThreads:             "CREATE_PRIVATE_THREADS",
+	PermissionUseExternalStickers:              "USE_EXTERNAL_STICKERS",
+	PermissionUseEmbeddedActivities:            "USE_EMBEDDED_ACTIVITIES",
+	PermissionModerateMembers:                  "MODERATE_MEMBERS",
+	PermissionViewCreatorMonetizationAnalytics: "VIEW_CREATOR_MONETIZATION_ANALYTICS",
+	PermissionUseSoundboard:                    "USE_SOUNDBOARD",
+	PermissionUseExternalSounds:                "USE_EXTERNAL_SOUNDS",
+	PermissionSendVoiceMessages:                "SEND_VOICE_MESSAGES",
 }
 
 func (p Permissions) String() string {

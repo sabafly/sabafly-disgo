@@ -29,7 +29,19 @@ func (e *InteractionCreate) Guild() (discord.Guild, bool) {
 type ApplicationCommandInteractionCreate struct {
 	*GenericEvent
 	discord.ApplicationCommandInteraction
-	Respond InteractionResponderFunc
+	RespondFunc   InteractionResponderFunc
+	ackKnowledged bool
+}
+
+func (e *ApplicationCommandInteractionCreate) Respond(responseType discord.InteractionResponseType, data discord.InteractionResponseData, opts ...rest.RequestOpt) error {
+	if e.ackKnowledged {
+		return nil
+	}
+	if err := e.RespondFunc(responseType, data); err != nil {
+		return err
+	}
+	e.ackKnowledged = true
+	return nil
 }
 
 // Guild returns the guild that the interaction happened in if it happened in a guild.
@@ -61,11 +73,32 @@ func (e *ApplicationCommandInteractionCreate) CreateModal(modalCreate discord.Mo
 	return e.Respond(discord.InteractionResponseTypeModal, modalCreate, opts...)
 }
 
+func (e *ApplicationCommandInteractionCreate) RespondMessage(messageBuilder discord.MessageBuilder, opts ...rest.RequestOpt) error {
+	if e.ackKnowledged {
+		_, err := e.Client().Rest().UpdateInteractionResponse(e.ApplicationID(), e.Token(), messageBuilder.Update())
+		return err
+	} else {
+		return e.CreateMessage(messageBuilder.Create())
+	}
+}
+
 // ComponentInteractionCreate indicates that a new component interaction has been created.
 type ComponentInteractionCreate struct {
 	*GenericEvent
 	discord.ComponentInteraction
-	Respond InteractionResponderFunc
+	RespondFunc   InteractionResponderFunc
+	ackKnowledged bool
+}
+
+func (e *ComponentInteractionCreate) Respond(responseType discord.InteractionResponseType, data discord.InteractionResponseData, opts ...rest.RequestOpt) error {
+	if e.ackKnowledged {
+		return nil
+	}
+	if err := e.RespondFunc(responseType, data); err != nil {
+		return err
+	}
+	e.ackKnowledged = true
+	return nil
 }
 
 // Guild returns the guild that the interaction happened in if it happened in a guild.
@@ -107,6 +140,15 @@ func (e *ComponentInteractionCreate) CreateModal(modalCreate discord.ModalCreate
 	return e.Respond(discord.InteractionResponseTypeModal, modalCreate, opts...)
 }
 
+func (e *ComponentInteractionCreate) RespondMessage(messageBuilder discord.MessageBuilder, opts ...rest.RequestOpt) error {
+	if e.ackKnowledged {
+		_, err := e.Client().Rest().UpdateInteractionResponse(e.ApplicationID(), e.Token(), messageBuilder.Update())
+		return err
+	} else {
+		return e.CreateMessage(messageBuilder.Create())
+	}
+}
+
 // AutocompleteInteractionCreate indicates that a new autocomplete interaction has been created.
 type AutocompleteInteractionCreate struct {
 	*GenericEvent
@@ -133,7 +175,19 @@ func (e *AutocompleteInteractionCreate) Result(choices []discord.AutocompleteCho
 type ModalSubmitInteractionCreate struct {
 	*GenericEvent
 	discord.ModalSubmitInteraction
-	Respond InteractionResponderFunc
+	RespondFunc   InteractionResponderFunc
+	ackKnowledged bool
+}
+
+func (e *ModalSubmitInteractionCreate) Respond(responseType discord.InteractionResponseType, data discord.InteractionResponseData, opts ...rest.RequestOpt) error {
+	if e.ackKnowledged {
+		return nil
+	}
+	if err := e.RespondFunc(responseType, data); err != nil {
+		return err
+	}
+	e.ackKnowledged = true
+	return nil
 }
 
 // Guild returns the guild that the interaction happened in if it happened in a guild.
@@ -168,4 +222,13 @@ func (e *ModalSubmitInteractionCreate) UpdateMessage(messageUpdate discord.Messa
 // DeferUpdateMessage responds to the interaction with nothing.
 func (e *ModalSubmitInteractionCreate) DeferUpdateMessage(opts ...rest.RequestOpt) error {
 	return e.Respond(discord.InteractionResponseTypeDeferredUpdateMessage, nil, opts...)
+}
+
+func (e *ModalSubmitInteractionCreate) RespondMessage(messageBuilder discord.MessageBuilder, opts ...rest.RequestOpt) error {
+	if e.ackKnowledged {
+		_, err := e.Client().Rest().UpdateInteractionResponse(e.ApplicationID(), e.Token(), messageBuilder.Update())
+		return err
+	} else {
+		return e.CreateMessage(messageBuilder.Create())
+	}
 }
