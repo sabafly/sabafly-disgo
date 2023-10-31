@@ -1,8 +1,8 @@
 package rest
 
 import (
-	"github.com/disgoorg/disgo/internal/slicehelper"
 	"github.com/disgoorg/snowflake/v2"
+	"github.com/sabafly/sabafly-disgo/internal/slicehelper"
 
 	"github.com/sabafly/sabafly-disgo/discord"
 )

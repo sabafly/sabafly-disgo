@@ -1,6 +1,6 @@
 package events
 
-import "github.com/disgoorg/disgo/discord"
+import "github.com/sabafly/sabafly-disgo/discord"
 
 type GenericEntitlementEvent struct {
 	*GenericEvent
