@@ -1,6 +1,7 @@
 package bot
 
 import (
+	"context"
 	"runtime/debug"
 	"sync"
 
@@ -76,8 +77,12 @@ func (l *listenerChan[E]) OnEvent(e Event) {
 
 // Event the basic interface each event implement
 type Event interface {
+	context.Context
 	Client() Client
 	SequenceNumber() int
+	Cancel()
+	CancelCause(err error)
+	IsCanceled() bool
 }
 
 // GatewayEventHandler is used to handle Gateway Event(s)
