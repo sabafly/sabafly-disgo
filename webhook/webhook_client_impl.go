@@ -7,8 +7,8 @@ import (
 
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/sabafly/sabafly-disgo/discord"
-	"github.com/sabafly/sabafly-disgo/rest"
+	"github.com/disgoorg/disgo/discord"
+	"github.com/disgoorg/disgo/rest"
 )
 
 // NewWithURL creates a new Client by parsing the given webhookURL for the ID and token.

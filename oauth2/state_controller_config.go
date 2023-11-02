@@ -5,7 +5,7 @@ import (
 
 	"github.com/disgoorg/log"
 
-	"github.com/sabafly/sabafly-disgo/internal/insecurerandstr"
+	"github.com/disgoorg/disgo/internal/insecurerandstr"
 )
 
 // DefaultStateControllerConfig is the default configuration for the StateController

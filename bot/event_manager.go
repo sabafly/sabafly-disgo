@@ -5,8 +5,8 @@ import (
 	"runtime/debug"
 	"sync"
 
-	"github.com/sabafly/sabafly-disgo/gateway"
-	"github.com/sabafly/sabafly-disgo/httpserver"
+	"github.com/disgoorg/disgo/gateway"
+	"github.com/disgoorg/disgo/httpserver"
 )
 
 var _ EventManager = (*eventManagerImpl)(nil)

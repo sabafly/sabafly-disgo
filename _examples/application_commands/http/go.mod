@@ -1,9 +1,9 @@
-module github.com/sabafly/sabafly-disgo/_examples/application_commands/http
+module github.com/disgoorg/disgo/_examples/application_commands/http
 
 go 1.18
 
 require (
-	github.com/sabafly/sabafly-disgo v0.11.5
+	github.com/disgoorg/disgo v0.11.5
 	github.com/disgoorg/log v1.2.0
 	github.com/disgoorg/snowflake/v2 v2.0.1
 	github.com/oasisprotocol/curve25519-voi v0.0.0-20230110094441-db37f07504ce

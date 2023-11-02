@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"github.com/sabafly/sabafly-disgo/events"
-	"github.com/sabafly/sabafly-disgo/handler"
+	"github.com/disgoorg/disgo/events"
+	"github.com/disgoorg/disgo/handler"
 )
 
 // Go is a middleware that runs the next handler in a goroutine

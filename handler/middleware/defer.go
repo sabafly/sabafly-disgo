@@ -1,9 +1,9 @@
 package middleware
 
 import (
-	"github.com/sabafly/sabafly-disgo/discord"
-	"github.com/sabafly/sabafly-disgo/events"
-	"github.com/sabafly/sabafly-disgo/handler"
+	"github.com/disgoorg/disgo/discord"
+	"github.com/disgoorg/disgo/events"
+	"github.com/disgoorg/disgo/handler"
 )
 
 // Defer is a middleware that defers the specified interaction type.

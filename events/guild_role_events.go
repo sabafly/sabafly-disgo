@@ -3,7 +3,7 @@ package events
 import (
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/sabafly/sabafly-disgo/discord"
+	"github.com/disgoorg/disgo/discord"
 )
 
 // GenericRole generic discord.Role event

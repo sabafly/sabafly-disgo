@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/sabafly/sabafly-disgo/discord"
+	"github.com/disgoorg/disgo/discord"
 )
 
 func DefaultRequestConfig(rq *http.Request) *RequestConfig {

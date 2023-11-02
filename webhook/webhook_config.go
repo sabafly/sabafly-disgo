@@ -3,8 +3,8 @@ package webhook
 import (
 	"github.com/disgoorg/log"
 
-	"github.com/sabafly/sabafly-disgo/discord"
-	"github.com/sabafly/sabafly-disgo/rest"
+	"github.com/disgoorg/disgo/discord"
+	"github.com/disgoorg/disgo/rest"
 )
 
 // DefaultConfig is the default configuration for the webhook client

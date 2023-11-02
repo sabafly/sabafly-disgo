@@ -6,7 +6,7 @@ import (
 
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/sabafly/sabafly-disgo/discord"
+	"github.com/disgoorg/disgo/discord"
 )
 
 // IDFromToken returns the applicationID from the token

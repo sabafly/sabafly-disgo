@@ -9,10 +9,10 @@ import (
 	"github.com/disgoorg/log"
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/sabafly/sabafly-disgo"
-	"github.com/sabafly/sabafly-disgo/discord"
-	"github.com/sabafly/sabafly-disgo/rest"
-	"github.com/sabafly/sabafly-disgo/webhook"
+	"github.com/disgoorg/disgo"
+	"github.com/disgoorg/disgo/discord"
+	"github.com/disgoorg/disgo/rest"
+	"github.com/disgoorg/disgo/webhook"
 )
 
 var (

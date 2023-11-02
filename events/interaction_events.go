@@ -1,8 +1,8 @@
 package events
 
 import (
-	"github.com/sabafly/sabafly-disgo/discord"
-	"github.com/sabafly/sabafly-disgo/rest"
+	"github.com/disgoorg/disgo/discord"
+	"github.com/disgoorg/disgo/rest"
 )
 
 // InteractionResponderFunc is a function that can be used to respond to a discord.Interaction.

@@ -4,7 +4,7 @@ import (
 	"github.com/disgoorg/json"
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/sabafly/sabafly-disgo/discord"
+	"github.com/disgoorg/disgo/discord"
 )
 
 // Message raw Message type

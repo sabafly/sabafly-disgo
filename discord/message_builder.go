@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/disgoorg/disgo/internal/builtin"
 	"github.com/disgoorg/snowflake/v2"
-	"github.com/sabafly/sabafly-disgo/internal/builtin"
 )
 
 type MessageBuilder interface {

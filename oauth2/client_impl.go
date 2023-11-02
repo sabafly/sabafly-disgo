@@ -5,8 +5,8 @@ import (
 
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/sabafly/sabafly-disgo/discord"
-	"github.com/sabafly/sabafly-disgo/rest"
+	"github.com/disgoorg/disgo/discord"
+	"github.com/disgoorg/disgo/rest"
 )
 
 // New returns a new OAuth2 client with the given ID, secret and ConfigOpt(s).

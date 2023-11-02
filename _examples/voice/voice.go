@@ -10,15 +10,15 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/sabafly/sabafly-disgo/voice"
+	"github.com/disgoorg/disgo/voice"
 
 	"github.com/disgoorg/log"
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/sabafly/sabafly-disgo"
-	"github.com/sabafly/sabafly-disgo/bot"
-	"github.com/sabafly/sabafly-disgo/events"
-	"github.com/sabafly/sabafly-disgo/gateway"
+	"github.com/disgoorg/disgo"
+	"github.com/disgoorg/disgo/bot"
+	"github.com/disgoorg/disgo/events"
+	"github.com/disgoorg/disgo/gateway"
 )
 
 var (

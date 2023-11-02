@@ -1,8 +1,8 @@
 package events
 
 import (
-	"github.com/sabafly/sabafly-disgo/discord"
-	"github.com/sabafly/sabafly-disgo/gateway"
+	"github.com/disgoorg/disgo/discord"
+	"github.com/disgoorg/disgo/gateway"
 )
 
 // GenericGuildVoiceState is called upon receiving GuildVoiceJoin , GuildVoiceMove , GuildVoiceLeave

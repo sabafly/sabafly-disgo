@@ -3,7 +3,7 @@ package events
 import (
 	"context"
 
-	"github.com/sabafly/sabafly-disgo/bot"
+	"github.com/disgoorg/disgo/bot"
 )
 
 // NewGenericEvent constructs a new GenericEvent with the provided Client instance

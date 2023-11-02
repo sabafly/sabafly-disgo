@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"github.com/sabafly/sabafly-disgo/discord"
+	"github.com/disgoorg/disgo/discord"
 )
 
 var _ Gateway = (*gatewayImpl)(nil)

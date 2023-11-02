@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/sabafly/sabafly-disgo/events"
+	"github.com/disgoorg/disgo/events"
 )
 
 type (

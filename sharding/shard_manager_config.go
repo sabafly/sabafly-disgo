@@ -3,7 +3,7 @@ package sharding
 import (
 	"github.com/disgoorg/log"
 
-	"github.com/sabafly/sabafly-disgo/gateway"
+	"github.com/disgoorg/disgo/gateway"
 )
 
 // DefaultConfig returns a Config with sensible defaults.

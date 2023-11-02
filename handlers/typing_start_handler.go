@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	"github.com/sabafly/sabafly-disgo/bot"
-	"github.com/sabafly/sabafly-disgo/discord"
-	"github.com/sabafly/sabafly-disgo/events"
-	"github.com/sabafly/sabafly-disgo/gateway"
+	"github.com/disgoorg/disgo/bot"
+	"github.com/disgoorg/disgo/discord"
+	"github.com/disgoorg/disgo/events"
+	"github.com/disgoorg/disgo/gateway"
 )
 
 func gatewayHandlerTypingStart(client bot.Client, sequenceNumber int, shardID int, event gateway.EventTypingStart) {

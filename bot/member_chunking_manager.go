@@ -7,9 +7,9 @@ import (
 	"github.com/disgoorg/log"
 	"github.com/disgoorg/snowflake/v2"
 
-	"github.com/sabafly/sabafly-disgo/discord"
-	"github.com/sabafly/sabafly-disgo/gateway"
-	"github.com/sabafly/sabafly-disgo/internal/insecurerandstr"
+	"github.com/disgoorg/disgo/discord"
+	"github.com/disgoorg/disgo/gateway"
+	"github.com/disgoorg/disgo/internal/insecurerandstr"
 )
 
 var _ MemberChunkingManager = (*memberChunkingManagerImpl)(nil)
