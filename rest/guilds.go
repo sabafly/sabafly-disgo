@@ -125,8 +125,13 @@ func (s *guildImpl) UpdateChannelPositions(guildID snowflake.ID, guildChannelPos
 func (s *guildImpl) GetRoles(guildID snowflake.ID, opts ...RequestOpt) (roles []discord.Role, err error) {
 	err = s.client.Do(GetRoles.Compile(nil, guildID), nil, &roles, opts...)
 	if err == nil {
-		for i := range roles {
-			roles[i].GuildID = guildID
+		everyone, err := s.GetRole(guildID, guildID)
+		if err == nil {
+			for i := range roles {
+				roles[i].GuildID = guildID
+			}
+			everyone.GuildID = guildID
+			roles = append(roles, *everyone)
 		}
 	}
 	return
