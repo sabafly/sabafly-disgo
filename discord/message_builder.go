@@ -4,318 +4,388 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/disgoorg/disgo/internal/builtin"
+	"github.com/disgoorg/disgo/internal/nillable"
 	"github.com/disgoorg/snowflake/v2"
 )
-
-type MessageBuilder interface {
-	AddActionRow(components ...InteractiveComponent) MessageBuilder
-	AddContainerComponents(containers ...ContainerComponent) MessageBuilder
-	AddEmbeds(embeds ...Embed) MessageBuilder
-	AddFile(name string, description string, reader io.Reader, flags ...FileFlags) MessageBuilder
-	AddFiles(files ...*File) MessageBuilder
-	AddFlags(flags ...MessageFlags) MessageBuilder
-	AddStickers(stickerIds ...snowflake.ID) MessageBuilder
-	Create() MessageCreate
-	Update() MessageUpdate
-	ClearAllowedMentions() MessageBuilder
-	ClearContainerComponents() MessageBuilder
-	ClearEmbeds() MessageBuilder
-	ClearFiles() MessageBuilder
-	ClearFlags() MessageBuilder
-	ClearStickers() MessageBuilder
-	RemoveContainerComponent(i int) MessageBuilder
-	RemoveEmbed(i int) MessageBuilder
-	RemoveFile(i int) MessageBuilder
-	RemoveFlags(flags ...MessageFlags) MessageBuilder
-	SetAllowedMentions(allowedMentions *AllowedMentions) MessageBuilder
-	SetContainerComponent(i int, container ContainerComponent) MessageBuilder
-	SetContainerComponents(containerComponents ...ContainerComponent) MessageBuilder
-	SetContent(content string) MessageBuilder
-	SetContentf(content string, a ...any) MessageBuilder
-	SetEmbed(i int, embed Embed) MessageBuilder
-	SetEmbeds(embeds ...Embed) MessageBuilder
-	SetEphemeral(ephemeral bool) MessageBuilder
-	SetFile(i int, file *File) MessageBuilder
-	SetFiles(files ...*File) MessageBuilder
-	SetFlags(flags MessageFlags) MessageBuilder
-	SetMessageReference(messageReference *MessageReference) MessageBuilder
-	SetMessageReferenceByID(messageID snowflake.ID) MessageBuilder
-	SetStickers(stickerIds ...snowflake.ID) MessageBuilder
-	SetSuppressEmbeds(suppressEmbeds bool) MessageBuilder
-}
 
 func NewMessageBuilder() MessageBuilder {
 	return &messageBuilderImpl{}
 }
 
-func NewMessageBuilderFromMessageCreate(m MessageCreate) MessageBuilder {
-	return &messageBuilderImpl{
-		MessageCreate: m,
+func NewMessageBuilderFromMessage(message Message) MessageBuilder {
+	attachments := make([]AttachmentUpdate, len(message.Attachments))
+	for i, attachment := range message.Attachments {
+		attachments[i] = AttachmentKeep{ID: attachment.ID}
 	}
+	builder := messageBuilderImpl{
+		TTS:              message.TTS,
+		MessageReference: message.MessageReference,
+		Content:          &message.Content,
+		Embeds:           &message.Embeds,
+		Components:       &message.Components,
+		Attachments:      &attachments,
+		Flags:            &message.Flags,
+	}
+	return &builder
 }
 
-var _ MessageBuilder = (*messageBuilderImpl)(nil)
+type MessageBuilder interface {
+	SetContent(content string) MessageBuilder
+	SetContentf(content string, a ...any) MessageBuilder
+	SetTTS(tts bool) MessageBuilder
+	SetEmbeds(embeds ...Embed) MessageBuilder
+	SetEmbed(i int, embed Embed) MessageBuilder
+	AddEmbeds(embeds ...Embed) MessageBuilder
+	ClearEmbeds() MessageBuilder
+	RemoveEmbed(i int) MessageBuilder
+	SetContainerComponents(containerComponents ...ContainerComponent) MessageBuilder
+	SetContainerComponent(i int, container ContainerComponent) MessageBuilder
+	AddActionRow(components ...InteractiveComponent) MessageBuilder
+	AddContainerComponents(containers ...ContainerComponent) MessageBuilder
+	RemoveContainerComponent(i int) MessageBuilder
+	ClearContainerComponents() MessageBuilder
+	AddStickers(stickerIds ...snowflake.ID) MessageBuilder
+	SetStickers(stickerIds ...snowflake.ID) MessageBuilder
+	ClearStickers() MessageBuilder
+	SetFiles(files ...*File) MessageBuilder
+	SetFile(i int, file *File) MessageBuilder
+	AddFiles(files ...*File) MessageBuilder
+	AddFile(name string, description string, reader io.Reader, flags ...FileFlags) MessageBuilder
+	ClearFiles() MessageBuilder
+	RemoveFile(i int) MessageBuilder
+	SetAllowedMentions(allowedMentions *AllowedMentions) MessageBuilder
+	ClearAllowedMentions() MessageBuilder
+	SetMessageReference(messageReference *MessageReference) MessageBuilder
+	SetMessageReferenceByID(messageID snowflake.ID) MessageBuilder
+	SetFlags(flags MessageFlags) MessageBuilder
+	AddFlags(flags ...MessageFlags) MessageBuilder
+	RemoveFlags(flags ...MessageFlags) MessageBuilder
+	ClearFlags() MessageBuilder
+	SetEphemeral(ephemeral bool) MessageBuilder
+	SetSuppressEmbeds(suppressEmbeds bool) MessageBuilder
+	SetEnforceNonce(enforceNonce bool) MessageBuilder
+
+	ClearContent() MessageBuilder
+	RetainAttachments(attachments ...Attachment) MessageBuilder
+	RetainAttachmentsByID(attachmentIDs ...snowflake.ID) MessageBuilder
+
+	BuildCreate() MessageCreate
+	BuildUpdate() MessageUpdate
+	BuildWebhookCreate(username string, avatarURL string, threadName string) WebhookMessageCreate
+	BuildWebhookUpdate() WebhookMessageUpdate
+
+	messageBuilder()
+}
 
 type messageBuilderImpl struct {
-	MessageCreate
-	attachments *[]AttachmentUpdate
+	Nonce            string                `json:"nonce,omitempty"`
+	TTS              bool                  `json:"tts,omitempty"`
+	StickerIDs       []snowflake.ID        `json:"sticker_ids,omitempty"`
+	MessageReference *MessageReference     `json:"message_reference,omitempty"`
+	Content          *string               `json:"content,omitempty"`
+	Embeds           *[]Embed              `json:"embeds,omitempty"`
+	Components       *[]ContainerComponent `json:"components,omitempty"`
+	Attachments      *[]AttachmentUpdate   `json:"attachments,omitempty"`
+	Files            []*File               `json:"-"`
+	AllowedMentions  *AllowedMentions      `json:"allowed_mentions,omitempty"`
+	Flags            *MessageFlags         `json:"flags,omitempty"`
+	EnforceNonce     bool                  `json:"enforce_nonce,omitempty"`
 }
 
-// SetContent sets the content of the Message
-func (b *messageBuilderImpl) SetContent(content string) MessageBuilder {
-	b.Content = content
-	return b
+func (m *messageBuilderImpl) SetEnforceNonce(enforceNonce bool) MessageBuilder {
+	m.EnforceNonce = enforceNonce
+	return m
 }
 
-// SetContentf sets the content of the Message but with format
-func (b *messageBuilderImpl) SetContentf(content string, a ...any) MessageBuilder {
-	return b.SetContent(fmt.Sprintf(content, a...))
+func (m *messageBuilderImpl) SetContent(content string) MessageBuilder {
+	m.Content = &content
+	return m
 }
 
-// SetTTS sets whether the Message should be text to speech
-func (b *messageBuilderImpl) SetTTS(tts bool) MessageBuilder {
-	b.TTS = tts
-	return b
+func (m *messageBuilderImpl) SetContentf(content string, args ...any) MessageBuilder {
+	s := fmt.Sprintf(content, args...)
+	m.Content = &s
+	return m
 }
 
-// SetEmbeds sets the Embed(s) of the Message
-func (b *messageBuilderImpl) SetEmbeds(embeds ...Embed) MessageBuilder {
-	b.Embeds = embeds
-	return b
+func (m *messageBuilderImpl) SetTTS(tts bool) MessageBuilder {
+	m.TTS = tts
+	return m
 }
 
-// SetEmbed sets the provided Embed at the index of the Message
-func (b *messageBuilderImpl) SetEmbed(i int, embed Embed) MessageBuilder {
-	if len(b.Embeds) > i {
-		b.Embeds[i] = embed
+func (m *messageBuilderImpl) SetEmbeds(embeds ...Embed) MessageBuilder {
+	m.Embeds = &embeds
+	return m
+}
+
+func (m *messageBuilderImpl) SetEmbed(i int, embed Embed) MessageBuilder {
+	if m.Embeds == nil {
+		m.Embeds = &[]Embed{}
 	}
-	return b
-}
-
-// AddEmbeds adds multiple embeds to the Message
-func (b *messageBuilderImpl) AddEmbeds(embeds ...Embed) MessageBuilder {
-	b.Embeds = append(b.Embeds, embeds...)
-	return b
-}
-
-// ClearEmbeds removes all the embeds from the Message
-func (b *messageBuilderImpl) ClearEmbeds() MessageBuilder {
-	b.Embeds = []Embed{}
-	return b
-}
-
-// RemoveEmbed removes an embed from the Message
-func (b *messageBuilderImpl) RemoveEmbed(i int) MessageBuilder {
-	if len(b.Embeds) > i {
-		b.Embeds = append(b.Embeds[:i], b.Embeds[i+1:]...)
+	if len(*m.Embeds) > i {
+		(*m.Embeds)[i] = embed
 	}
-	return b
+	return m
 }
 
-// SetContainerComponents sets the discord.ContainerComponent(s) of the Message
-func (b *messageBuilderImpl) SetContainerComponents(containerComponents ...ContainerComponent) MessageBuilder {
-	b.Components = containerComponents
-	return b
-}
-
-// SetContainerComponent sets the provided discord.InteractiveComponent at the index of discord.InteractiveComponent(s)
-func (b *messageBuilderImpl) SetContainerComponent(i int, container ContainerComponent) MessageBuilder {
-	if len(b.Components) > i {
-		b.Components[i] = container
+func (m *messageBuilderImpl) AddEmbeds(embeds ...Embed) MessageBuilder {
+	if m.Embeds == nil {
+		m.Embeds = &[]Embed{}
 	}
-	return b
+	*m.Embeds = append(*m.Embeds, embeds...)
+	return m
 }
 
-// AddActionRow adds a new discord.ActionRowComponent with the provided discord.InteractiveComponent(s) to the Message
-func (b *messageBuilderImpl) AddActionRow(components ...InteractiveComponent) MessageBuilder {
-	b.Components = append(b.Components, ActionRowComponent(components))
-	return b
+func (m *messageBuilderImpl) ClearEmbeds() MessageBuilder {
+	return m.SetEmbeds()
 }
 
-// AddContainerComponents adds the discord.ContainerComponent(s) to the Message
-func (b *messageBuilderImpl) AddContainerComponents(containers ...ContainerComponent) MessageBuilder {
-	b.Components = append(b.Components, containers...)
-	return b
-}
-
-// RemoveContainerComponent removes a discord.ActionRowComponent from the Message
-func (b *messageBuilderImpl) RemoveContainerComponent(i int) MessageBuilder {
-	if len(b.Components) > i {
-		b.Components = append(b.Components[:i], b.Components[i+1:]...)
+func (m *messageBuilderImpl) RemoveEmbed(i int) MessageBuilder {
+	if m.Embeds == nil {
+		m.Embeds = &[]Embed{}
 	}
-	return b
+	*m.Embeds = append((*m.Embeds)[:i], (*m.Embeds)[i+1:]...)
+	return m
 }
 
-// ClearContainerComponents removes all the discord.ContainerComponent(s) of the Message
-func (b *messageBuilderImpl) ClearContainerComponents() MessageBuilder {
-	b.Components = []ContainerComponent{}
-	return b
+func (m *messageBuilderImpl) SetContainerComponents(containerComponents ...ContainerComponent) MessageBuilder {
+	m.Components = &containerComponents
+	return m
 }
 
-// AddStickers adds provided stickers to the Message
-func (b *messageBuilderImpl) AddStickers(stickerIds ...snowflake.ID) MessageBuilder {
-	b.StickerIDs = append(b.StickerIDs, stickerIds...)
-	return b
-}
-
-// SetStickers sets the stickers of the Message
-func (b *messageBuilderImpl) SetStickers(stickerIds ...snowflake.ID) MessageBuilder {
-	b.StickerIDs = stickerIds
-	return b
-}
-
-// ClearStickers removes all Sticker(s) from the Message
-func (b *messageBuilderImpl) ClearStickers() MessageBuilder {
-	b.StickerIDs = []snowflake.ID{}
-	return b
-}
-
-// SetFiles sets the File(s) for this MessageCreate
-func (b *messageBuilderImpl) SetFiles(files ...*File) MessageBuilder {
-	b.Files = files
-	return b
-}
-
-// SetFile sets the discord.File at the index for this discord.MessageCreate
-func (b *messageBuilderImpl) SetFile(i int, file *File) MessageBuilder {
-	if len(b.Files) > i {
-		b.Files[i] = file
+func (m *messageBuilderImpl) SetContainerComponent(i int, container ContainerComponent) MessageBuilder {
+	if m.Components == nil {
+		m.Components = &[]ContainerComponent{}
 	}
-	return b
-}
-
-// AddFiles adds the discord.File(s) to the discord.MessageCreate
-func (b *messageBuilderImpl) AddFiles(files ...*File) MessageBuilder {
-	b.Files = append(b.Files, files...)
-	return b
-}
-
-// AddFile adds a discord.File to the discord.MessageCreate
-func (b *messageBuilderImpl) AddFile(name string, description string, reader io.Reader, flags ...FileFlags) MessageBuilder {
-	b.Files = append(b.Files, NewFile(name, description, reader, flags...))
-	return b
-}
-
-// ClearFiles removes all discord.File(s) of this discord.MessageCreate
-func (b *messageBuilderImpl) ClearFiles() MessageBuilder {
-	b.Files = []*File{}
-	return b
-}
-
-// RemoveFile removes the discord.File at this index
-func (b *messageBuilderImpl) RemoveFile(i int) MessageBuilder {
-	if len(b.Files) > i {
-		b.Files = append(b.Files[:i], b.Files[i+1:]...)
+	if len(*m.Components) > i {
+		(*m.Components)[i] = container
 	}
-	return b
+	return m
 }
 
-// SetAllowedMentions sets the AllowedMentions of the Message
-func (b *messageBuilderImpl) SetAllowedMentions(allowedMentions *AllowedMentions) MessageBuilder {
-	b.AllowedMentions = allowedMentions
-	return b
-}
-
-// ClearAllowedMentions clears the discord.AllowedMentions of the Message
-func (b *messageBuilderImpl) ClearAllowedMentions() MessageBuilder {
-	return b.SetAllowedMentions(nil)
-}
-
-// SetMessageReference allows you to specify a MessageReference to reply to
-func (b *messageBuilderImpl) SetMessageReference(messageReference *MessageReference) MessageBuilder {
-	b.MessageReference = messageReference
-	return b
-}
-
-// SetMessageReferenceByID allows you to specify a Message CommandID to reply to
-func (b *messageBuilderImpl) SetMessageReferenceByID(messageID snowflake.ID) MessageBuilder {
-	if b.MessageReference == nil {
-		b.MessageReference = &MessageReference{}
+func (m *messageBuilderImpl) AddActionRow(components ...InteractiveComponent) MessageBuilder {
+	if m.Components == nil {
+		m.Components = &[]ContainerComponent{}
 	}
-	b.MessageReference.MessageID = &messageID
-	return b
+	*m.Components = append(*m.Components, ActionRowComponent(components))
+	return m
 }
 
-// SetFlags sets the message flags of the Message
-func (b *messageBuilderImpl) SetFlags(flags MessageFlags) MessageBuilder {
-	b.Flags = flags
-	return b
+func (m *messageBuilderImpl) AddContainerComponents(containers ...ContainerComponent) MessageBuilder {
+	if m.Components == nil {
+		m.Components = &[]ContainerComponent{}
+	}
+	*m.Components = append(*m.Components, containers...)
+	return m
 }
 
-// AddFlags adds the MessageFlags of the Message
-func (b *messageBuilderImpl) AddFlags(flags ...MessageFlags) MessageBuilder {
-	b.Flags = b.Flags.Add(flags...)
-	return b
+func (m *messageBuilderImpl) RemoveContainerComponent(i int) MessageBuilder {
+	if m.Components == nil {
+		m.Components = &[]ContainerComponent{}
+	}
+	*m.Components = append((*m.Components)[:i], (*m.Components)[i+1:]...)
+	return m
 }
 
-// RemoveFlags removes the MessageFlags of the Message
-func (b *messageBuilderImpl) RemoveFlags(flags ...MessageFlags) MessageBuilder {
-	b.Flags = b.Flags.Remove(flags...)
-	return b
+func (m *messageBuilderImpl) ClearContainerComponents() MessageBuilder {
+	return m.SetContainerComponents()
 }
 
-// ClearFlags clears the discord.MessageFlags of the Message
-func (b *messageBuilderImpl) ClearFlags() MessageBuilder {
-	return b.SetFlags(MessageFlagsNone)
+func (m *messageBuilderImpl) AddStickers(stickerIds ...snowflake.ID) MessageBuilder {
+	m.StickerIDs = append(m.StickerIDs, stickerIds...)
+	return m
 }
 
-// SetEphemeral adds/removes discord.MessageFlagEphemeral to the Message flags
-func (b *messageBuilderImpl) SetEphemeral(ephemeral bool) MessageBuilder {
+func (m *messageBuilderImpl) SetStickers(stickerIds ...snowflake.ID) MessageBuilder {
+	m.StickerIDs = stickerIds
+	return m
+}
+
+func (m *messageBuilderImpl) ClearStickers() MessageBuilder {
+	return m.SetStickers()
+}
+
+func (m *messageBuilderImpl) SetFiles(files ...*File) MessageBuilder {
+	m.Files = files
+	return m
+}
+
+func (m *messageBuilderImpl) SetFile(i int, file *File) MessageBuilder {
+	if len(m.Files) > i {
+		m.Files[i] = file
+	}
+	return m
+}
+
+func (m *messageBuilderImpl) AddFiles(files ...*File) MessageBuilder {
+	m.Files = append(m.Files, files...)
+	return m
+}
+
+func (m *messageBuilderImpl) AddFile(name string, description string, reader io.Reader, flags ...FileFlags) MessageBuilder {
+	m.Files = append(m.Files, NewFile(name, description, reader, flags...))
+	return m
+}
+
+func (m *messageBuilderImpl) ClearFiles() MessageBuilder {
+	return m.SetFiles()
+}
+
+func (m *messageBuilderImpl) RemoveFile(i int) MessageBuilder {
+	if len(m.Files) > i {
+		m.Files = append(m.Files[:i], m.Files[i+1:]...)
+	}
+	return m
+}
+
+func (m *messageBuilderImpl) SetAllowedMentions(allowedMentions *AllowedMentions) MessageBuilder {
+	m.AllowedMentions = allowedMentions
+	return m
+}
+
+func (m *messageBuilderImpl) ClearAllowedMentions() MessageBuilder {
+	return m.SetAllowedMentions(nil)
+}
+
+func (m *messageBuilderImpl) SetMessageReference(messageReference *MessageReference) MessageBuilder {
+	m.MessageReference = messageReference
+	return m
+}
+
+func (m *messageBuilderImpl) SetMessageReferenceByID(messageID snowflake.ID) MessageBuilder {
+	m.MessageReference = &MessageReference{MessageID: &messageID}
+	return m
+}
+
+func (m *messageBuilderImpl) SetFlags(flags MessageFlags) MessageBuilder {
+	m.Flags = &flags
+	return m
+}
+
+func (m *messageBuilderImpl) AddFlags(flags ...MessageFlags) MessageBuilder {
+	if m.Flags == nil {
+		m.Flags = new(MessageFlags)
+	}
+	*m.Flags = m.Flags.Add(flags...)
+	return m
+}
+
+func (m *messageBuilderImpl) RemoveFlags(flags ...MessageFlags) MessageBuilder {
+	if m.Flags == nil {
+		m.Flags = new(MessageFlags)
+	}
+	*m.Flags = m.Flags.Remove(flags...)
+	return m
+
+}
+
+func (m *messageBuilderImpl) ClearFlags() MessageBuilder {
+	return m.SetFlags(MessageFlagsNone)
+}
+
+func (m *messageBuilderImpl) SetEphemeral(ephemeral bool) MessageBuilder {
+	if m.Flags == nil {
+		m.Flags = new(MessageFlags)
+	}
 	if ephemeral {
-		b.Flags = b.Flags.Add(MessageFlagEphemeral)
+		*m.Flags = m.Flags.Add(MessageFlagEphemeral)
 	} else {
-		b.Flags = b.Flags.Remove(MessageFlagEphemeral)
+		*m.Flags = m.Flags.Remove(MessageFlagEphemeral)
 	}
-	return b
+	return m
 }
 
-// SetSuppressEmbeds adds/removes discord.MessageFlagSuppressEmbeds to the Message flags
-func (b *messageBuilderImpl) SetSuppressEmbeds(suppressEmbeds bool) MessageBuilder {
+func (m *messageBuilderImpl) SetSuppressEmbeds(suppressEmbeds bool) MessageBuilder {
+	if m.Flags == nil {
+		m.Flags = new(MessageFlags)
+	}
 	if suppressEmbeds {
-		b.Flags = b.Flags.Add(MessageFlagSuppressEmbeds)
+		*m.Flags = m.Flags.Add(MessageFlagSuppressEmbeds)
 	} else {
-		b.Flags = b.Flags.Remove(MessageFlagSuppressEmbeds)
+		*m.Flags = m.Flags.Remove(MessageFlagSuppressEmbeds)
 	}
-	return b
+	return m
 }
 
-// RetainAttachments removes all Attachment(s) from this Message except the ones provided
-func (b *messageBuilderImpl) RetainAttachments(attachments ...Attachment) MessageBuilder {
-	if b.attachments == nil {
-		b.attachments = new([]AttachmentUpdate)
+func (m *messageBuilderImpl) ClearContent() MessageBuilder {
+	return m.SetContent("")
+}
+
+func (m *messageBuilderImpl) RetainAttachments(attachments ...Attachment) MessageBuilder {
+	if m.Attachments == nil {
+		m.Attachments = new([]AttachmentUpdate)
 	}
 	for _, attachment := range attachments {
-		*b.attachments = append(*b.attachments, AttachmentKeep{ID: attachment.ID})
+		*m.Attachments = append(*m.Attachments, AttachmentKeep{ID: attachment.ID})
 	}
-	return b
+	return m
 }
 
-// RetainAttachmentsByID removes all Attachment(s) from this Message except the ones provided
-func (b *messageBuilderImpl) RetainAttachmentsByID(attachmentIDs ...snowflake.ID) MessageBuilder {
-	if b.attachments == nil {
-		b.attachments = new([]AttachmentUpdate)
+func (m *messageBuilderImpl) RetainAttachmentsByID(attachmentIDs ...snowflake.ID) MessageBuilder {
+	if m.Attachments == nil {
+		m.Attachments = new([]AttachmentUpdate)
 	}
 	for _, attachmentID := range attachmentIDs {
-		*b.attachments = append(*b.attachments, AttachmentKeep{ID: attachmentID})
+		*m.Attachments = append(*m.Attachments, AttachmentKeep{ID: attachmentID})
 	}
-	return b
+	return m
 }
 
-// Create builds the MessageBuilder to a MessageCreate struct
-func (b *messageBuilderImpl) Create() MessageCreate {
-	return b.MessageCreate
+func (m *messageBuilderImpl) BuildCreate() MessageCreate {
+	var attachments []AttachmentCreate
+	attachments = parseAttachments(m.Files)
+	return MessageCreate{
+		Nonce:            m.Nonce,
+		Content:          nillable.NonNil(m.Content),
+		TTS:              m.TTS,
+		Embeds:           nillable.NonNil(m.Embeds),
+		Components:       nillable.NonNil(m.Components),
+		StickerIDs:       m.StickerIDs,
+		Files:            m.Files,
+		Attachments:      attachments,
+		AllowedMentions:  m.AllowedMentions,
+		MessageReference: m.MessageReference,
+		Flags:            nillable.NonNil(m.Flags),
+		EnforceNonce:     m.EnforceNonce,
+	}
 }
 
-// Update builds the MessageBuilder to a MessageUpdate struct
-func (b *messageBuilderImpl) Update() MessageUpdate {
+func (m *messageBuilderImpl) BuildUpdate() MessageUpdate {
 	return MessageUpdate{
-		Content:         builtin.Or(b.Content != "", &b.Content, nil),
-		Embeds:          builtin.Or(len(b.Embeds) > 0, &b.Embeds, nil),
-		Components:      builtin.Or(len(b.Components) > 0, &b.Components, nil),
-		Attachments:     b.attachments,
-		Files:           b.Files,
-		AllowedMentions: b.AllowedMentions,
-		Flags:           builtin.Or(b.Flags != MessageFlagsNone, &b.Flags, nil),
+		Content:         m.Content,
+		Embeds:          m.Embeds,
+		Components:      m.Components,
+		Attachments:     m.Attachments,
+		Files:           m.Files,
+		AllowedMentions: m.AllowedMentions,
+		Flags:           m.Flags,
 	}
 }
+
+func (m *messageBuilderImpl) BuildWebhookCreate(username string, avatarURL string, threadName string) WebhookMessageCreate {
+	return WebhookMessageCreate{
+		Content:         nillable.NonNil(m.Content),
+		Username:        username,
+		AvatarURL:       avatarURL,
+		TTS:             m.TTS,
+		Embeds:          nillable.NonNil(m.Embeds),
+		Components:      nillable.NonNil(m.Components),
+		Files:           m.Files,
+		AllowedMentions: m.AllowedMentions,
+		Flags:           nillable.NonNil(m.Flags),
+		ThreadName:      threadName,
+	}
+}
+
+func (m *messageBuilderImpl) BuildWebhookUpdate() WebhookMessageUpdate {
+	return WebhookMessageUpdate{
+		Content:         m.Content,
+		Embeds:          m.Embeds,
+		Components:      m.Components,
+		Attachments:     m.Attachments,
+		Files:           m.Files,
+		AllowedMentions: m.AllowedMentions,
+	}
+}
+
+func (m *messageBuilderImpl) messageBuilder() {}
