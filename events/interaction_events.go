@@ -37,7 +37,7 @@ func (e *ApplicationCommandInteractionCreate) Respond(responseType discord.Inter
 	if e.ackKnowledged {
 		return nil
 	}
-	if err := e.RespondFunc(responseType, data); err != nil {
+	if err := e.RespondFunc(responseType, data, opts...); err != nil {
 		return err
 	}
 	e.ackKnowledged = true
@@ -75,10 +75,10 @@ func (e *ApplicationCommandInteractionCreate) Modal(modalCreate discord.ModalCre
 
 func (e *ApplicationCommandInteractionCreate) RespondMessage(messageBuilder discord.MessageBuilder, opts ...rest.RequestOpt) error {
 	if e.ackKnowledged {
-		_, err := e.Client().Rest().UpdateInteractionResponse(e.ApplicationID(), e.Token(), messageBuilder.Update())
+		_, err := e.Client().Rest().UpdateInteractionResponse(e.ApplicationID(), e.Token(), messageBuilder.BuildUpdate(), opts...)
 		return err
 	} else {
-		return e.CreateMessage(messageBuilder.Create())
+		return e.CreateMessage(messageBuilder.BuildCreate())
 	}
 }
 
@@ -99,7 +99,7 @@ func (e *ComponentInteractionCreate) Respond(responseType discord.InteractionRes
 	if e.ackKnowledged {
 		return nil
 	}
-	if err := e.RespondFunc(responseType, data); err != nil {
+	if err := e.RespondFunc(responseType, data, opts...); err != nil {
 		return err
 	}
 	e.ackKnowledged = true
@@ -147,10 +147,10 @@ func (e *ComponentInteractionCreate) Modal(modalCreate discord.ModalCreate, opts
 
 func (e *ComponentInteractionCreate) RespondMessage(messageBuilder discord.MessageBuilder, opts ...rest.RequestOpt) error {
 	if e.ackKnowledged {
-		_, err := e.Client().Rest().UpdateInteractionResponse(e.ApplicationID(), e.Token(), messageBuilder.Update())
+		_, err := e.Client().Rest().UpdateInteractionResponse(e.ApplicationID(), e.Token(), messageBuilder.BuildUpdate(), opts...)
 		return err
 	} else {
-		return e.CreateMessage(messageBuilder.Create())
+		return e.CreateMessage(messageBuilder.BuildCreate())
 	}
 }
 
@@ -193,7 +193,7 @@ func (e *ModalSubmitInteractionCreate) Respond(responseType discord.InteractionR
 	if e.ackKnowledged {
 		return nil
 	}
-	if err := e.RespondFunc(responseType, data); err != nil {
+	if err := e.RespondFunc(responseType, data, opts...); err != nil {
 		return err
 	}
 	e.ackKnowledged = true
@@ -236,10 +236,10 @@ func (e *ModalSubmitInteractionCreate) DeferUpdateMessage(opts ...rest.RequestOp
 
 func (e *ModalSubmitInteractionCreate) RespondMessage(messageBuilder discord.MessageBuilder, opts ...rest.RequestOpt) error {
 	if e.ackKnowledged {
-		_, err := e.Client().Rest().UpdateInteractionResponse(e.ApplicationID(), e.Token(), messageBuilder.Update())
+		_, err := e.Client().Rest().UpdateInteractionResponse(e.ApplicationID(), e.Token(), messageBuilder.BuildUpdate(), opts...)
 		return err
 	} else {
-		return e.CreateMessage(messageBuilder.Create())
+		return e.CreateMessage(messageBuilder.BuildCreate())
 	}
 }
 
