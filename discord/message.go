@@ -343,17 +343,7 @@ type MentionChannel struct {
 }
 
 func (m Message) Builder() MessageBuilder {
-	return &messageBuilderImpl{
-		MessageCreate: MessageCreate{
-			Content:          m.Content,
-			TTS:              m.TTS,
-			Embeds:           m.Embeds,
-			Components:       m.Components,
-			StickerIDs:       sticker2ids(m.StickerItems),
-			MessageReference: m.MessageReference,
-			Flags:            m.Flags,
-		},
-	}
+	return NewMessageBuilderFromMessage(m)
 }
 
 func sticker2ids(s []MessageSticker) []snowflake.ID {
