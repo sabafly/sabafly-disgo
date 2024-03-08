@@ -34,6 +34,15 @@ const (
 	ChannelTypeGuildMedia
 )
 
+func (c ChannelType) IsThread() bool {
+	switch c {
+	case ChannelTypeGuildNewsThread, ChannelTypeGuildPublicThread, ChannelTypeGuildPrivateThread:
+		return true
+	default:
+		return false
+	}
+}
+
 type ChannelFlags int
 
 const (

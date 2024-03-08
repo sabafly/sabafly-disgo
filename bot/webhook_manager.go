@@ -36,13 +36,18 @@ func (w *webhookManagerImpl) GetMessenger(channel discord.Channel) (discord.Webh
 		return nil, discord.ErrUnsupportedType
 	}
 
-	if channel.Type() == discord.ChannelTypeGuildPublicThread ||
-		channel.Type() == discord.ChannelTypeGuildPrivateThread ||
-		channel.Type() == discord.ChannelTypeGuildNewsThread {
-		c, ok := channel.(discord.GuildThread)
-		if ic, iok := channel.(discord.InteractionChannel); !ok && iok {
-			c = ic.MessageChannel.(discord.GuildThread)
-		} else {
+	if channel.Type().IsThread() {
+		var c discord.GuildThread
+	interaction:
+		switch ch := channel.(type) {
+		case discord.GuildThread:
+			c = ch
+		case discord.MessageThread:
+			c = ch.GuildThread
+		case discord.InteractionChannel:
+			channel = ch.MessageChannel
+			goto interaction
+		default:
 			return nil, discord.ErrUnsupportedType
 		}
 		return NewThreadWebhookMessenger(w.client, *c.ParentID(), c.ID())
@@ -93,7 +98,7 @@ type channelWebhookMessenger struct {
 }
 
 func (c channelWebhookMessenger) SendWebhook(message discord.MessageBuilder, username, avatarURL, threadName string) (*discord.Message, error) {
-	return c.client.Rest().CreateWebhookMessage(c.webhook.ID(), c.webhook.Token, message.BuildWebhookCreate(username, avatarURL, threadName), false, 0)
+	return c.client.Rest().CreateWebhookMessage(c.webhook.ID(), c.webhook.Token, message.BuildWebhookCreate(username, avatarURL, threadName), true, 0)
 }
 
 func (c channelWebhookMessenger) Webhook() discord.Webhook {
@@ -142,7 +147,7 @@ type threadWebhookMessenger struct {
 }
 
 func (t threadWebhookMessenger) SendWebhook(message discord.MessageBuilder, username, avatarURL, threadName string) (*discord.Message, error) {
-	return t.client.Rest().CreateWebhookMessage(t.webhook.ID(), t.webhook.Token, message.BuildWebhookCreate(username, avatarURL, threadName), false, t.threadID)
+	return t.client.Rest().CreateWebhookMessage(t.webhook.ID(), t.webhook.Token, message.BuildWebhookCreate(username, avatarURL, threadName), true, t.threadID)
 }
 
 func (t threadWebhookMessenger) Webhook() discord.Webhook {
