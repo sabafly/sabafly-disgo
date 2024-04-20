@@ -93,7 +93,7 @@ func (h *handlerHolder[T]) Handle(path string, event *InteractionEvent) error {
 			ApplicationCommandInteractionCreate: &events.ApplicationCommandInteractionCreate{
 				GenericEvent:                  event.GenericEvent,
 				ApplicationCommandInteraction: commandInteraction,
-				Respond:                       event.Respond,
+				RespondFunc:                   event.Respond,
 			},
 			Vars: event.Vars,
 			Ctx:  event.Ctx,
@@ -104,7 +104,7 @@ func (h *handlerHolder[T]) Handle(path string, event *InteractionEvent) error {
 			ApplicationCommandInteractionCreate: &events.ApplicationCommandInteractionCreate{
 				GenericEvent:                  event.GenericEvent,
 				ApplicationCommandInteraction: commandInteraction,
-				Respond:                       event.Respond,
+				RespondFunc:                   event.Respond,
 			},
 			Vars: event.Vars,
 			Ctx:  event.Ctx,
@@ -115,7 +115,7 @@ func (h *handlerHolder[T]) Handle(path string, event *InteractionEvent) error {
 			ApplicationCommandInteractionCreate: &events.ApplicationCommandInteractionCreate{
 				GenericEvent:                  event.GenericEvent,
 				ApplicationCommandInteraction: commandInteraction,
-				Respond:                       event.Respond,
+				RespondFunc:                   event.Respond,
 			},
 			Vars: event.Vars,
 			Ctx:  event.Ctx,
@@ -146,7 +146,7 @@ func (h *handlerHolder[T]) Handle(path string, event *InteractionEvent) error {
 			ComponentInteractionCreate: &events.ComponentInteractionCreate{
 				GenericEvent:         event.GenericEvent,
 				ComponentInteraction: componentInteraction,
-				Respond:              event.Respond,
+				RespondFunc:          event.Respond,
 			},
 			Vars: event.Vars,
 			Ctx:  event.Ctx,
@@ -157,7 +157,7 @@ func (h *handlerHolder[T]) Handle(path string, event *InteractionEvent) error {
 			ComponentInteractionCreate: &events.ComponentInteractionCreate{
 				GenericEvent:         event.GenericEvent,
 				ComponentInteraction: componentInteraction,
-				Respond:              event.Respond,
+				RespondFunc:          event.Respond,
 			},
 			Vars: event.Vars,
 			Ctx:  event.Ctx,
