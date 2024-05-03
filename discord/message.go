@@ -115,6 +115,7 @@ type Message struct {
 	RoleSubscriptionData *RoleSubscriptionData `json:"role_subscription_data,omitempty"`
 	InteractionMetadata  *InteractionMetadata  `json:"interaction_metadata,omitempty"`
 	Resolved             *ResolvedData         `json:"resolved,omitempty"`
+	Poll                 *Poll                 `json:"poll,omitempty"`
 }
 
 func (m *Message) UnmarshalJSON(data []byte) error {
@@ -480,7 +481,7 @@ type RoleSubscriptionData struct {
 type InteractionMetadata struct {
 	ID                            snowflake.ID                                `json:"id"`
 	Type                          InteractionType                             `json:"type"`
-	UserID                        snowflake.ID                                `json:"user_id"`
+	User                          User                                        `json:"user"`
 	AuthorizingIntegrationOwners  map[ApplicationIntegrationType]snowflake.ID `json:"authorizing_integration_owners"`
 	OriginalResponseMessageID     *snowflake.ID                               `json:"original_response_message_id"`
 	Name                          *string                                     `json:"name"`

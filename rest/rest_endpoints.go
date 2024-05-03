@@ -171,6 +171,9 @@ var (
 
 	SendTyping    = NewEndpoint(http.MethodPost, "/channels/{channel.id}/typing")
 	FollowChannel = NewEndpoint(http.MethodPost, "/channels/{channel.id}/followers")
+
+	GetPollAnswerVotes = NewEndpoint(http.MethodGet, "/channels/{channel.id}/polls/{message.id}/answers/{answer.id}")
+	ExpirePoll         = NewEndpoint(http.MethodPost, "/channels/{channel.id}/polls/{message.id}/expire")
 )
 
 // Threads
@@ -297,6 +300,7 @@ var (
 	GetEntitlements       = NewEndpoint(http.MethodGet, "/applications/{application.id}/entitlements")
 	CreateTestEntitlement = NewEndpoint(http.MethodPost, "/applications/{application.id}/entitlements")
 	DeleteTestEntitlement = NewEndpoint(http.MethodDelete, "/applications/{application.id}/entitlements/{entitlement.id}")
+	ConsumeEntitlement    = NewEndpoint(http.MethodPost, "/applications/{application.id}/entitlements/{entitlement.id}/consume")
 
 	GetSKUs = NewEndpoint(http.MethodGet, "/applications/{application.id}/skus")
 )

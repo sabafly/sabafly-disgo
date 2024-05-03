@@ -63,6 +63,9 @@ const (
 	PermissionCreateEvents
 	PermissionUseExternalSounds
 	PermissionSendVoiceMessages
+	_
+	_
+	PermissionSendPolls
 
 	PermissionsAllText = PermissionCreateInstantInvite |
 		PermissionManageChannels |
@@ -85,7 +88,8 @@ const (
 		PermissionUseExternalStickers |
 		PermissionSendMessagesInThreads |
 		PermissionUseEmbeddedActivities |
-		PermissionSendVoiceMessages
+		PermissionSendVoiceMessages |
+		PermissionSendPolls
 
 	PermissionsAllVoice = PermissionCreateInstantInvite |
 		PermissionManageChannels |
@@ -117,10 +121,9 @@ const (
 		PermissionUseExternalSounds |
 		PermissionSendVoiceMessages |
 		PermissionRequestToSpeak |
-		PermissionUseEmbeddedActivities |
 		PermissionCreateGuildExpressions |
 		PermissionCreateEvents |
-		PermissionManageEvents
+		PermissionSendPolls
 
 	PermissionsAllStage = PermissionCreateInstantInvite |
 		PermissionManageChannels |
@@ -143,7 +146,8 @@ const (
 		PermissionRequestToSpeak |
 		PermissionManageEvents |
 		PermissionUseExternalStickers |
-		PermissionSendVoiceMessages
+		PermissionSendVoiceMessages |
+		PermissionSendPolls
 
 	PermissionsAllForum = PermissionCreateInstantInvite |
 		PermissionManageChannels |
@@ -163,7 +167,8 @@ const (
 		PermissionManageThreads |
 		PermissionUseExternalStickers |
 		PermissionUseEmbeddedActivities |
-		PermissionSendVoiceMessages
+		PermissionSendVoiceMessages |
+		PermissionSendPolls
 
 	PermissionsAllChannel = PermissionsAllText |
 		PermissionsAllVoice |
@@ -234,6 +239,7 @@ var permissions = map[Permissions]string{
 	PermissionUseSoundboard:                    "USE_SOUNDBOARD",
 	PermissionUseExternalSounds:                "USE_EXTERNAL_SOUNDS",
 	PermissionSendVoiceMessages:                "SEND_VOICE_MESSAGES",
+	PermissionSendPolls:                        "SEND_POLLS",
 }
 
 func (p Permissions) String() string {
