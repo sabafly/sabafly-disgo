@@ -332,8 +332,7 @@ func (m *messageBuilderImpl) RetainAttachmentsByID(attachmentIDs ...snowflake.ID
 }
 
 func (m *messageBuilderImpl) BuildCreate() MessageCreate {
-	var attachments []AttachmentCreate
-	attachments = parseAttachments(m.Files)
+	attachments := parseAttachments(m.Files)
 	return MessageCreate{
 		Nonce:            m.Nonce,
 		Content:          nillable.NonNil(m.Content),

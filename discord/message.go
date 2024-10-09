@@ -348,14 +348,6 @@ func (m Message) Builder() MessageBuilder {
 	return NewMessageBuilderFromMessage(m)
 }
 
-func sticker2ids(s []MessageSticker) []snowflake.ID {
-	v := make([]snowflake.ID, len(s))
-	for i, ms := range s {
-		v[i] = ms.ID
-	}
-	return v
-}
-
 type MessageThread struct {
 	GuildThread
 	Member ThreadMember `json:"member"`
