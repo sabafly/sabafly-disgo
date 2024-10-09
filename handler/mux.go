@@ -11,7 +11,7 @@ import (
 )
 
 var defaultErrorHandler ErrorHandler = func(event *InteractionEvent, err error) {
-	event.Client().Logger().Error("error handling interaction", slog.String("err", err.Error()))
+	event.Client().Logger().Error("error handling interaction", slog.Any("err", err))
 }
 
 // New returns a new Router.
@@ -228,6 +228,17 @@ func (r *Mux) MessageCommand(pattern string, h MessageCommandHandler) {
 		handler: h,
 		t:       discord.InteractionTypeApplicationCommand,
 		t2:      []int{int(discord.ApplicationCommandTypeMessage)},
+	})
+}
+
+// EntryPointCommand registers the given EntryPointCommandHandler to the current Router.
+func (r *Mux) EntryPointCommand(pattern string, h EntryPointCommandHandler) {
+	checkPattern(pattern)
+	r.handle(&handlerHolder[EntryPointCommandHandler]{
+		pattern: pattern,
+		handler: h,
+		t:       discord.InteractionTypeApplicationCommand,
+		t2:      []int{int(discord.ApplicationCommandTypePrimaryEntryPoint)},
 	})
 }
 

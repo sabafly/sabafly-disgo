@@ -30,17 +30,17 @@ type ApplicationCommandInteractionCreate struct {
 	*GenericEvent
 	discord.ApplicationCommandInteraction
 	RespondFunc   InteractionResponderFunc
-	ackKnowledged bool
+	acknowledged bool
 }
 
 func (e *ApplicationCommandInteractionCreate) Respond(responseType discord.InteractionResponseType, data discord.InteractionResponseData, opts ...rest.RequestOpt) error {
-	if e.ackKnowledged {
+	if e.acknowledged {
 		return nil
 	}
 	if err := e.RespondFunc(responseType, data, opts...); err != nil {
 		return err
 	}
-	e.ackKnowledged = true
+	e.acknowledged = true
 	return nil
 }
 
@@ -74,7 +74,7 @@ func (e *ApplicationCommandInteractionCreate) Modal(modalCreate discord.ModalCre
 }
 
 func (e *ApplicationCommandInteractionCreate) RespondMessage(messageBuilder discord.MessageBuilder, opts ...rest.RequestOpt) error {
-	if e.ackKnowledged {
+	if e.acknowledged {
 		_, err := e.Client().Rest().UpdateInteractionResponse(e.ApplicationID(), e.Token(), messageBuilder.BuildUpdate(), opts...)
 		return err
 	} else {
@@ -82,9 +82,15 @@ func (e *ApplicationCommandInteractionCreate) RespondMessage(messageBuilder disc
 	}
 }
 
+// Deprecated: Respond with a discord.ButtonStylePremium button instead.
 // PremiumRequired responds to the interaction with an upgrade button if available.
 func (e *ApplicationCommandInteractionCreate) PremiumRequired(opts ...rest.RequestOpt) error {
 	return e.Respond(discord.InteractionResponseTypePremiumRequired, nil, opts...)
+}
+
+// LaunchActivity responds to the interaction by launching activity associated with the app.
+func (e *ApplicationCommandInteractionCreate) LaunchActivity(opts ...rest.RequestOpt) error {
+	return e.Respond(discord.InteractionResponseTypeLaunchActivity, nil, opts...)
 }
 
 // ComponentInteractionCreate indicates that a new component interaction has been created.
@@ -92,17 +98,17 @@ type ComponentInteractionCreate struct {
 	*GenericEvent
 	discord.ComponentInteraction
 	RespondFunc   InteractionResponderFunc
-	ackKnowledged bool
+	acknowledged bool
 }
 
 func (e *ComponentInteractionCreate) Respond(responseType discord.InteractionResponseType, data discord.InteractionResponseData, opts ...rest.RequestOpt) error {
-	if e.ackKnowledged {
+	if e.acknowledged {
 		return nil
 	}
 	if err := e.RespondFunc(responseType, data, opts...); err != nil {
 		return err
 	}
-	e.ackKnowledged = true
+	e.acknowledged = true
 	return nil
 }
 
@@ -146,7 +152,7 @@ func (e *ComponentInteractionCreate) Modal(modalCreate discord.ModalCreate, opts
 }
 
 func (e *ComponentInteractionCreate) RespondMessage(messageBuilder discord.MessageBuilder, opts ...rest.RequestOpt) error {
-	if e.ackKnowledged {
+	if e.acknowledged {
 		_, err := e.Client().Rest().UpdateInteractionResponse(e.ApplicationID(), e.Token(), messageBuilder.BuildUpdate(), opts...)
 		return err
 	} else {
@@ -154,9 +160,15 @@ func (e *ComponentInteractionCreate) RespondMessage(messageBuilder discord.Messa
 	}
 }
 
+// Deprecated: Respond with a discord.ButtonStylePremium button instead.
 // PremiumRequired responds to the interaction with an upgrade button if available.
 func (e *ComponentInteractionCreate) PremiumRequired(opts ...rest.RequestOpt) error {
 	return e.Respond(discord.InteractionResponseTypePremiumRequired, nil, opts...)
+}
+
+// LaunchActivity responds to the interaction by launching activity associated with the app.
+func (e *ComponentInteractionCreate) LaunchActivity(opts ...rest.RequestOpt) error {
+	return e.Respond(discord.InteractionResponseTypeLaunchActivity, nil, opts...)
 }
 
 // AutocompleteInteractionCreate indicates that a new autocomplete interaction has been created.
@@ -186,17 +198,17 @@ type ModalSubmitInteractionCreate struct {
 	*GenericEvent
 	discord.ModalSubmitInteraction
 	RespondFunc   InteractionResponderFunc
-	ackKnowledged bool
+	acknowledged bool
 }
 
 func (e *ModalSubmitInteractionCreate) Respond(responseType discord.InteractionResponseType, data discord.InteractionResponseData, opts ...rest.RequestOpt) error {
-	if e.ackKnowledged {
+	if e.acknowledged {
 		return nil
 	}
 	if err := e.RespondFunc(responseType, data, opts...); err != nil {
 		return err
 	}
-	e.ackKnowledged = true
+	e.acknowledged = true
 	return nil
 }
 
@@ -235,7 +247,7 @@ func (e *ModalSubmitInteractionCreate) DeferUpdateMessage(opts ...rest.RequestOp
 }
 
 func (e *ModalSubmitInteractionCreate) RespondMessage(messageBuilder discord.MessageBuilder, opts ...rest.RequestOpt) error {
-	if e.ackKnowledged {
+	if e.acknowledged {
 		_, err := e.Client().Rest().UpdateInteractionResponse(e.ApplicationID(), e.Token(), messageBuilder.BuildUpdate(), opts...)
 		return err
 	} else {
@@ -243,7 +255,13 @@ func (e *ModalSubmitInteractionCreate) RespondMessage(messageBuilder discord.Mes
 	}
 }
 
+// Deprecated: Respond with a discord.ButtonStylePremium button instead.
 // PremiumRequired responds to the interaction with an upgrade button if available.
 func (e *ModalSubmitInteractionCreate) PremiumRequired(opts ...rest.RequestOpt) error {
 	return e.Respond(discord.InteractionResponseTypePremiumRequired, nil, opts...)
+}
+
+// LaunchActivity responds to the interaction by launching activity associated with the app.
+func (e *ModalSubmitInteractionCreate) LaunchActivity(opts ...rest.RequestOpt) error {
+	return e.Respond(discord.InteractionResponseTypeLaunchActivity, nil, opts...)
 }

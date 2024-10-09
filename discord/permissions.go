@@ -66,6 +66,7 @@ const (
 	_
 	_
 	PermissionSendPolls
+	PermissionUseExternalApps
 
 	PermissionsAllText = PermissionCreateInstantInvite |
 		PermissionManageChannels |
@@ -89,7 +90,8 @@ const (
 		PermissionSendMessagesInThreads |
 		PermissionUseEmbeddedActivities |
 		PermissionSendVoiceMessages |
-		PermissionSendPolls
+		PermissionSendPolls |
+		PermissionUseExternalApps
 
 	PermissionsAllVoice = PermissionCreateInstantInvite |
 		PermissionManageChannels |
@@ -107,6 +109,7 @@ const (
 		PermissionUseExternalEmojis |
 		PermissionConnect |
 		PermissionSpeak |
+		PermissionStream |
 		PermissionMuteMembers |
 		PermissionDeafenMembers |
 		PermissionMoveMembers |
@@ -121,6 +124,7 @@ const (
 		PermissionUseExternalSounds |
 		PermissionSendVoiceMessages |
 		PermissionRequestToSpeak |
+		PermissionUseEmbeddedActivities |
 		PermissionCreateGuildExpressions |
 		PermissionCreateEvents |
 		PermissionSendPolls
@@ -172,7 +176,8 @@ const (
 
 	PermissionsAllChannel = PermissionsAllText |
 		PermissionsAllVoice |
-		PermissionsAllStage
+		PermissionsAllStage |
+		PermissionsAllForum
 
 	PermissionsAllGuild = PermissionKickMembers |
 		PermissionBanMembers |
@@ -203,8 +208,6 @@ var permissions = map[Permissions]string{
 	PermissionManageGuild:                      "MANAGE_GUILD",
 	PermissionAddReactions:                     "ADD_REACTIONS",
 	PermissionViewAuditLog:                     "VIEW_AUDIT_LOG",
-	PermissionPrioritySpeaker:                  "PRIORITY_SPEAKER",
-	PermissionStream:                           "STREAM",
 	PermissionViewChannel:                      "VIEW_CHANNEL",
 	PermissionSendMessages:                     "SEND_MESSAGES",
 	PermissionSendTTSMessages:                  "SEND_TTS_MESSAGES",
@@ -214,13 +217,13 @@ var permissions = map[Permissions]string{
 	PermissionReadMessageHistory:               "READ_MESSAGE_HISTORY",
 	PermissionMentionEveryone:                  "MENTION_EVERYONE",
 	PermissionUseExternalEmojis:                "USE_EXTERNAL_EMOJIS",
-	PermissionViewGuildInsights:                "VIEW_GUILD_INSIGHTS",
 	PermissionConnect:                          "CONNECT",
 	PermissionSpeak:                            "SPEAK",
 	PermissionMuteMembers:                      "MUTE_MEMBERS",
 	PermissionDeafenMembers:                    "DEAFEN_MEMBERS",
 	PermissionMoveMembers:                      "MOVE_MEMBERS",
 	PermissionUseVAD:                           "USE_VAD",
+	PermissionPrioritySpeaker:                  "PRIORITY_SPEAKER",
 	PermissionChangeNickname:                   "CHANGE_NICKNAME",
 	PermissionManageNicknames:                  "MANAGE_NICKNAMES",
 	PermissionManageRoles:                      "MANAGE_ROLES",
@@ -233,13 +236,17 @@ var permissions = map[Permissions]string{
 	PermissionCreatePublicThreads:              "CREATE_PUBLIC_THREADS",
 	PermissionCreatePrivateThreads:             "CREATE_PRIVATE_THREADS",
 	PermissionUseExternalStickers:              "USE_EXTERNAL_STICKERS",
+	PermissionSendMessagesInThreads:            "SEND_MESSAGES_IN_THREADS",
 	PermissionUseEmbeddedActivities:            "USE_EMBEDDED_ACTIVITIES",
 	PermissionModerateMembers:                  "MODERATE_MEMBERS",
 	PermissionViewCreatorMonetizationAnalytics: "VIEW_CREATOR_MONETIZATION_ANALYTICS",
 	PermissionUseSoundboard:                    "USE_SOUNDBOARD",
 	PermissionUseExternalSounds:                "USE_EXTERNAL_SOUNDS",
+	PermissionStream:                           "STREAM",
+	PermissionViewGuildInsights:                "VIEW_GUILD_INSIGHTS",
 	PermissionSendVoiceMessages:                "SEND_VOICE_MESSAGES",
 	PermissionSendPolls:                        "SEND_POLLS",
+	PermissionUseExternalApps:                  "USE_EXTERNAL_APPS",
 }
 
 func (p Permissions) String() string {

@@ -15,8 +15,10 @@ type Connection struct {
 type ConnectionType string
 
 const (
+	ConnectionTypeAmazonMusic        ConnectionType = "amazon-music"
 	ConnectionTypeBattleNet          ConnectionType = "battlenet"
 	ConnectionTypeBungie             ConnectionType = "bungie"
+	ConnectionTypeDomain             ConnectionType = "domain"
 	ConnectionTypeEbay               ConnectionType = "ebay"
 	ConnectionTypeEpicGames          ConnectionType = "epicgames"
 	ConnectionTypeFacebook           ConnectionType = "facebook"
@@ -27,12 +29,13 @@ const (
 	ConnectionTypePlayStationNetwork ConnectionType = "playstation"
 	ConnectionTypeReddit             ConnectionType = "reddit"
 	ConnectionTypeRiotGames          ConnectionType = "riotgames"
+	ConnectionTypeRoblox             ConnectionType = "roblox"
 	ConnectionTypeSpotify            ConnectionType = "spotify"
 	ConnectionTypeSkype              ConnectionType = "skype"
 	ConnectionTypeSteam              ConnectionType = "steam"
 	ConnectionTypeTikTok             ConnectionType = "tiktok"
 	ConnectionTypeTwitch             ConnectionType = "twitch"
-	ConnectionTypeTwitter            ConnectionType = "twitter"
+	ConnectionTypeX                  ConnectionType = "twitter"
 	ConnectionTypeXbox               ConnectionType = "xbox"
 	ConnectionTypeYouTube            ConnectionType = "youtube"
 )
