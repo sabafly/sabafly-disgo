@@ -7,7 +7,7 @@ import (
 )
 
 // NewGenericEvent constructs a new GenericEvent with the provided Client instance
-func NewGenericEvent(client bot.Client, sequenceNumber int, shardID int) *GenericEvent {
+func NewGenericEvent(client *bot.Client, sequenceNumber int, shardID int) *GenericEvent {
 	ctx, cancelCause := context.WithCancelCause(context.Background())
 	ctx, cancelFunc := context.WithCancel(ctx)
 	return &GenericEvent{client: client, sequenceNumber: sequenceNumber, shardID: shardID, Context: ctx, cancelFunc: cancelFunc, cancelCauseFunc: cancelCause}
@@ -15,7 +15,7 @@ func NewGenericEvent(client bot.Client, sequenceNumber int, shardID int) *Generi
 
 // GenericEvent the base event structure
 type GenericEvent struct {
-	client          bot.Client
+	client          *bot.Client
 	sequenceNumber  int
 	shardID         int
 	cancelFunc      context.CancelFunc
@@ -24,7 +24,7 @@ type GenericEvent struct {
 }
 
 // Client returns the bot.Client instance that dispatched the event
-func (e *GenericEvent) Client() bot.Client {
+func (e *GenericEvent) Client() *bot.Client {
 	return e.client
 }
 

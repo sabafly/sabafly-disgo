@@ -44,7 +44,6 @@ var (
 	GetCurrentUserApplicationRoleConnection    = NewNoBotAuthEndpoint(http.MethodGet, "/users/@me/applications/{application.id}/role-connection")
 	UpdateCurrentUserApplicationRoleConnection = NewNoBotAuthEndpoint(http.MethodPut, "/users/@me/applications/{application.id}/role-connection")
 	LeaveGuild                                 = NewEndpoint(http.MethodDelete, "/users/@me/guilds/{guild.id}")
-	GetDMChannels                              = NewEndpoint(http.MethodGet, "/users/@me/channels")
 	CreateDMChannel                            = NewEndpoint(http.MethodPost, "/users/@me/channels")
 )
 
@@ -92,6 +91,8 @@ var (
 
 	GetGuildOnboarding    = NewEndpoint(http.MethodGet, "/guilds/{guild.id}/onboarding")
 	UpdateGuildOnboarding = NewEndpoint(http.MethodPut, "/guilds/{guild.id}/onboarding")
+
+	UpdateGuildIncidentActions = NewEndpoint(http.MethodPut, "/guilds/{guild.id}/incident-actions")
 
 	GetCurrentUserVoiceState    = NewEndpoint(http.MethodGet, "/guilds/{guild.id}/voice-states/@me")
 	GetUserVoiceState           = NewEndpoint(http.MethodGet, "/guilds/{guild.id}/voice-states/{user.id}")
@@ -176,8 +177,6 @@ var (
 	GetChannelWebhooks = NewEndpoint(http.MethodGet, "/channels/{channel.id}/webhooks")
 	CreateWebhook      = NewEndpoint(http.MethodPost, "/channels/{channel.id}/webhooks")
 
-	GetPermissionOverwrites   = NewEndpoint(http.MethodGet, "/channels/{channel.id}/permissions")
-	GetPermissionOverwrite    = NewEndpoint(http.MethodGet, "/channels/{channel.id}/permissions/{overwrite.id}")
 	UpdatePermissionOverwrite = NewEndpoint(http.MethodPut, "/channels/{channel.id}/permissions/{overwrite.id}")
 	DeletePermissionOverwrite = NewEndpoint(http.MethodDelete, "/channels/{channel.id}/permissions/{overwrite.id}")
 
@@ -260,6 +259,7 @@ var (
 	UpdateWebhookWithToken = NewNoBotAuthEndpoint(http.MethodPatch, "/webhooks/{webhook.id}/{webhook.token}")
 	DeleteWebhookWithToken = NewNoBotAuthEndpoint(http.MethodDelete, "/webhooks/{webhook.id}/{webhook.token}")
 
+	GetWebhookMessage          = NewNoBotAuthEndpoint(http.MethodGet, "/webhooks/{webhook.id}/{webhook.token}/messages/{message.id}")
 	CreateWebhookMessage       = NewNoBotAuthEndpoint(http.MethodPost, "/webhooks/{webhook.id}/{webhook.token}")
 	CreateWebhookMessageSlack  = NewNoBotAuthEndpoint(http.MethodPost, "/webhooks/{webhook.id}/{webhook.token}/slack")
 	CreateWebhookMessageGitHub = NewNoBotAuthEndpoint(http.MethodPost, "/webhooks/{webhook.id}/{webhook.token}/github")
@@ -305,7 +305,7 @@ var (
 	UpdateInteractionResponse = NewNoBotAuthEndpoint(http.MethodPatch, "/webhooks/{application.id}/{interaction.token}/messages/@original")
 	DeleteInteractionResponse = NewNoBotAuthEndpoint(http.MethodDelete, "/webhooks/{application.id}/{interaction.token}/messages/@original")
 
-	GetFollowupMessage    = NewNoBotAuthEndpoint(http.MethodGet, "/webhooks/{application.id}/{interaction.token}")
+	GetFollowupMessage    = NewNoBotAuthEndpoint(http.MethodGet, "/webhooks/{application.id}/{interaction.token}/messages/{message.id}")
 	CreateFollowupMessage = NewNoBotAuthEndpoint(http.MethodPost, "/webhooks/{application.id}/{interaction.token}")
 	UpdateFollowupMessage = NewNoBotAuthEndpoint(http.MethodPatch, "/webhooks/{application.id}/{interaction.token}/messages/{message.id}")
 	DeleteFollowupMessage = NewNoBotAuthEndpoint(http.MethodDelete, "/webhooks/{application.id}/{interaction.token}/messages/{message.id}")
@@ -314,6 +314,7 @@ var (
 	UpdateApplicationRoleConnectionMetadata = NewEndpoint(http.MethodPut, "/applications/{application.id}/role-connections/metadata")
 
 	GetEntitlements       = NewEndpoint(http.MethodGet, "/applications/{application.id}/entitlements")
+	GetEntitlement        = NewEndpoint(http.MethodGet, "/applications/{application.id}/entitlements/{entitlement.id}")
 	CreateTestEntitlement = NewEndpoint(http.MethodPost, "/applications/{application.id}/entitlements")
 	DeleteTestEntitlement = NewEndpoint(http.MethodDelete, "/applications/{application.id}/entitlements/{entitlement.id}")
 	ConsumeEntitlement    = NewEndpoint(http.MethodPost, "/applications/{application.id}/entitlements/{entitlement.id}/consume")

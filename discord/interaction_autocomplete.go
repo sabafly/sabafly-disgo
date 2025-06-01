@@ -1,7 +1,7 @@
 package discord
 
 import (
-	"github.com/disgoorg/json"
+	"github.com/disgoorg/json/v2"
 	"github.com/disgoorg/snowflake/v2"
 )
 
@@ -29,7 +29,6 @@ func (i *AutocompleteInteraction) UnmarshalJSON(data []byte) error {
 	i.baseInteraction.version = interaction.Version
 	i.baseInteraction.guild = interaction.Guild
 	i.baseInteraction.guildID = interaction.GuildID
-	i.baseInteraction.channelID = interaction.ChannelID
 	i.baseInteraction.channel = interaction.Channel
 	i.baseInteraction.locale = interaction.Locale
 	i.baseInteraction.guildLocale = interaction.GuildLocale
@@ -39,6 +38,11 @@ func (i *AutocompleteInteraction) UnmarshalJSON(data []byte) error {
 	i.baseInteraction.entitlements = interaction.Entitlements
 	i.baseInteraction.authorizingIntegrationOwners = interaction.AuthorizingIntegrationOwners
 	i.baseInteraction.context = interaction.Context
+	i.baseInteraction.attachmentSizeLimit = interaction.AttachmentSizeLimit
+
+	if i.baseInteraction.member != nil && i.baseInteraction.guildID != nil {
+		i.baseInteraction.member.GuildID = *i.baseInteraction.guildID
+	}
 
 	i.Data = interaction.Data
 	return nil
@@ -57,7 +61,6 @@ func (i AutocompleteInteraction) MarshalJSON() ([]byte, error) {
 			Version:                      i.version,
 			Guild:                        i.guild,
 			GuildID:                      i.guildID,
-			ChannelID:                    i.channelID,
 			Channel:                      i.channel,
 			Locale:                       i.locale,
 			GuildLocale:                  i.guildLocale,
@@ -67,6 +70,7 @@ func (i AutocompleteInteraction) MarshalJSON() ([]byte, error) {
 			Entitlements:                 i.entitlements,
 			AuthorizingIntegrationOwners: i.authorizingIntegrationOwners,
 			Context:                      i.context,
+			AttachmentSizeLimit:          i.attachmentSizeLimit,
 		},
 		Data: i.Data,
 	})
@@ -234,10 +238,7 @@ func (d AutocompleteInteractionData) String(name string) string {
 
 func (d AutocompleteInteractionData) OptInt(name string) (int, bool) {
 	if option, ok := d.Option(name); ok {
-		var v int
-		if err := json.Unmarshal(option.Value, &v); err == nil {
-			return v, true
-		}
+		return option.Int(), true
 	}
 	return 0, false
 }
@@ -251,10 +252,7 @@ func (d AutocompleteInteractionData) Int(name string) int {
 
 func (d AutocompleteInteractionData) OptBool(name string) (bool, bool) {
 	if option, ok := d.Option(name); ok {
-		var v bool
-		if err := json.Unmarshal(option.Value, &v); err == nil {
-			return v, true
-		}
+		return option.Bool(), true
 	}
 	return false, false
 }
@@ -268,10 +266,7 @@ func (d AutocompleteInteractionData) Bool(name string) bool {
 
 func (d AutocompleteInteractionData) OptSnowflake(name string) (snowflake.ID, bool) {
 	if option, ok := d.Option(name); ok {
-		var v snowflake.ID
-		if err := json.Unmarshal(option.Value, &v); err == nil {
-			return v, true
-		}
+		return option.Snowflake(), true
 	}
 	return 0, false
 }
@@ -285,10 +280,7 @@ func (d AutocompleteInteractionData) Snowflake(name string) snowflake.ID {
 
 func (d AutocompleteInteractionData) OptFloat(name string) (float64, bool) {
 	if option, ok := d.Option(name); ok {
-		var v float64
-		if err := json.Unmarshal(option.Value, &v); err == nil {
-			return v, true
-		}
+		return option.Float(), true
 	}
 	return 0, false
 }

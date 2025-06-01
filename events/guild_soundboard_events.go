@@ -1,8 +1,9 @@
 package events
 
 import (
-	"github.com/disgoorg/disgo/discord"
 	"github.com/disgoorg/snowflake/v2"
+
+	"github.com/disgoorg/disgo/discord"
 )
 
 // GenericGuildSoundboardSound is called upon receiving GuildSoundboardSoundCreate and GuildSoundboardSoundUpdate (requires gateway.IntentGuildExpressions)
@@ -33,6 +34,7 @@ type GuildSoundboardSoundDelete struct {
 type GuildSoundboardSoundsUpdate struct {
 	*GenericEvent
 	SoundboardSounds []discord.SoundboardSound
+	GuildID          snowflake.ID
 }
 
 // SoundboardSounds is a response to gateway.OpcodeRequestSoundboardSounds

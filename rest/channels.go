@@ -20,8 +20,6 @@ type Channels interface {
 	GetWebhooks(channelID snowflake.ID, opts ...RequestOpt) ([]discord.Webhook, error)
 	CreateWebhook(channelID snowflake.ID, webhookCreate discord.WebhookCreate, opts ...RequestOpt) (*discord.IncomingWebhook, error)
 
-	GetPermissionOverwrites(channelID snowflake.ID, opts ...RequestOpt) ([]discord.PermissionOverwrite, error)
-	GetPermissionOverwrite(channelID snowflake.ID, overwriteID snowflake.ID, opts ...RequestOpt) (discord.PermissionOverwrite, error)
 	UpdatePermissionOverwrite(channelID snowflake.ID, overwriteID snowflake.ID, permissionOverwrite discord.PermissionOverwriteUpdate, opts ...RequestOpt) error
 	DeletePermissionOverwrite(channelID snowflake.ID, overwriteID snowflake.ID, opts ...RequestOpt) error
 
@@ -93,27 +91,6 @@ func (s *channelImpl) GetWebhooks(channelID snowflake.ID, opts ...RequestOpt) (w
 
 func (s *channelImpl) CreateWebhook(channelID snowflake.ID, webhookCreate discord.WebhookCreate, opts ...RequestOpt) (webhook *discord.IncomingWebhook, err error) {
 	err = s.client.Do(CreateWebhook.Compile(nil, channelID), webhookCreate, &webhook, opts...)
-	return
-}
-
-func (s *channelImpl) GetPermissionOverwrites(channelID snowflake.ID, opts ...RequestOpt) (overwrites []discord.PermissionOverwrite, err error) {
-	var pos []discord.UnmarshalPermissionOverwrite
-	err = s.client.Do(GetPermissionOverwrites.Compile(nil, channelID), nil, &pos, opts...)
-	if err == nil {
-		overwrites = make([]discord.PermissionOverwrite, len(pos))
-		for i := range pos {
-			overwrites[i] = pos[i].PermissionOverwrite
-		}
-	}
-	return
-}
-
-func (s *channelImpl) GetPermissionOverwrite(channelID snowflake.ID, overwriteID snowflake.ID, opts ...RequestOpt) (overwrite discord.PermissionOverwrite, err error) {
-	var unmarshalOverwrite discord.UnmarshalPermissionOverwrite
-	err = s.client.Do(GetPermissionOverwrite.Compile(nil, channelID, overwriteID), nil, &unmarshalOverwrite, opts...)
-	if err == nil {
-		overwrite = unmarshalOverwrite.PermissionOverwrite
-	}
 	return
 }
 
@@ -255,7 +232,11 @@ func (s *channelImpl) GetPollAnswerVotes(channelID snowflake.ID, messageID snowf
 	if limit != 0 {
 		values["limit"] = limit
 	}
-	err = s.client.Do(GetPollAnswerVotes.Compile(values, channelID, messageID, answerID), nil, &users, opts...)
+	var rs pollAnswerVotesResponse
+	err = s.client.Do(GetPollAnswerVotes.Compile(values, channelID, messageID, answerID), nil, &rs, opts...)
+	if err == nil {
+		users = rs.Users
+	}
 	return
 }
 
@@ -271,4 +252,8 @@ func (s *channelImpl) GetPollAnswerVotesPage(channelID snowflake.ID, messageID s
 func (s *channelImpl) ExpirePoll(channelID snowflake.ID, messageID snowflake.ID, opts ...RequestOpt) (message *discord.Message, err error) {
 	err = s.client.Do(ExpirePoll.Compile(nil, channelID, messageID), nil, &message, opts...)
 	return
+}
+
+type pollAnswerVotesResponse struct {
+	Users []discord.User `json:"users"`
 }

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/disgoorg/json"
+	"github.com/disgoorg/json/v2"
 	"github.com/disgoorg/snowflake/v2"
 
 	"github.com/disgoorg/disgo/internal/flags"
@@ -138,6 +138,7 @@ type GuildMessageChannel interface {
 	Topic() *string
 
 	// NSFW returns whether the GuildMessageChannel is marked as not safe for work.
+	// This is always false for GuildThread(s).
 	NSFW() bool
 
 	// DefaultAutoArchiveDuration returns the default AutoArchiveDuration for GuildThread(s) in this GuildMessageChannel.
@@ -891,7 +892,6 @@ type GuildThread struct {
 	channelType      ChannelType
 	guildID          snowflake.ID
 	name             string
-	nsfw             bool
 	lastMessageID    *snowflake.ID
 	lastPinTimestamp *time.Time
 	rateLimitPerUser int
@@ -914,7 +914,6 @@ func (c *GuildThread) UnmarshalJSON(data []byte) error {
 	c.channelType = v.Type
 	c.guildID = v.GuildID
 	c.name = v.Name
-	c.nsfw = v.NSFW
 	c.lastMessageID = v.LastMessageID
 	c.lastPinTimestamp = v.LastPinTimestamp
 	c.rateLimitPerUser = v.RateLimitPerUser
@@ -934,7 +933,6 @@ func (c GuildThread) MarshalJSON() ([]byte, error) {
 		Type:             c.channelType,
 		GuildID:          c.guildID,
 		Name:             c.name,
-		NSFW:             c.nsfw,
 		LastMessageID:    c.lastMessageID,
 		LastPinTimestamp: c.lastPinTimestamp,
 		RateLimitPerUser: c.rateLimitPerUser,
@@ -974,8 +972,9 @@ func (c GuildThread) Topic() *string {
 	return nil
 }
 
+// NSFW always returns false for GuildThread(s) as they do not have their own NSFW flag.
 func (c GuildThread) NSFW() bool {
-	return c.nsfw
+	return false
 }
 
 func (c GuildThread) Name() string {
@@ -1403,7 +1402,7 @@ type PartialChannel struct {
 	Type ChannelType  `json:"type"`
 }
 
-// VideoQualityMode https://com/developers/docs/resources/channel#channel-object-video-quality-modes
+// VideoQualityMode https://discord.com/developers/docs/resources/channel#channel-object-video-quality-modes
 type VideoQualityMode int
 
 const (

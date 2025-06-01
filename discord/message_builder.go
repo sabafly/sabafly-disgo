@@ -38,12 +38,12 @@ type MessageBuilder interface {
 	AddEmbeds(embeds ...Embed) MessageBuilder
 	ClearEmbeds() MessageBuilder
 	RemoveEmbed(i int) MessageBuilder
-	SetContainerComponents(containerComponents ...ContainerComponent) MessageBuilder
-	SetContainerComponent(i int, container ContainerComponent) MessageBuilder
+	SetComponents(component ...LayoutComponent) MessageBuilder
+	SetComponent(i int, container LayoutComponent) MessageBuilder
 	AddActionRow(components ...InteractiveComponent) MessageBuilder
-	AddContainerComponents(containers ...ContainerComponent) MessageBuilder
-	RemoveContainerComponent(i int) MessageBuilder
-	ClearContainerComponents() MessageBuilder
+	AddComponents(containers ...LayoutComponent) MessageBuilder
+	RemoveComponent(i int) MessageBuilder
+	ClearComponents() MessageBuilder
 	AddStickers(stickerIds ...snowflake.ID) MessageBuilder
 	SetStickers(stickerIds ...snowflake.ID) MessageBuilder
 	ClearStickers() MessageBuilder
@@ -64,6 +64,7 @@ type MessageBuilder interface {
 	SetEphemeral(ephemeral bool) MessageBuilder
 	SetSuppressEmbeds(suppressEmbeds bool) MessageBuilder
 	SetEnforceNonce(enforceNonce bool) MessageBuilder
+	SetIsComponentsV2(isComponentsV2 bool) MessageBuilder
 
 	ClearContent() MessageBuilder
 	RetainAttachments(attachments ...Attachment) MessageBuilder
@@ -78,18 +79,18 @@ type MessageBuilder interface {
 }
 
 type messageBuilderImpl struct {
-	Nonce            string                `json:"nonce,omitempty"`
-	TTS              bool                  `json:"tts,omitempty"`
-	StickerIDs       []snowflake.ID        `json:"sticker_ids,omitempty"`
-	MessageReference *MessageReference     `json:"message_reference,omitempty"`
-	Content          *string               `json:"content,omitempty"`
-	Embeds           *[]Embed              `json:"embeds,omitempty"`
-	Components       *[]ContainerComponent `json:"components,omitempty"`
-	Attachments      *[]AttachmentUpdate   `json:"attachments,omitempty"`
-	Files            []*File               `json:"-"`
-	AllowedMentions  *AllowedMentions      `json:"allowed_mentions,omitempty"`
-	Flags            *MessageFlags         `json:"flags,omitempty"`
-	EnforceNonce     bool                  `json:"enforce_nonce,omitempty"`
+	Nonce            string              `json:"nonce,omitempty"`
+	TTS              bool                `json:"tts,omitempty"`
+	StickerIDs       []snowflake.ID      `json:"sticker_ids,omitempty"`
+	MessageReference *MessageReference   `json:"message_reference,omitempty"`
+	Content          *string             `json:"content,omitempty"`
+	Embeds           *[]Embed            `json:"embeds,omitempty"`
+	Components       *[]LayoutComponent  `json:"components,omitempty"`
+	Attachments      *[]AttachmentUpdate `json:"attachments,omitempty"`
+	Files            []*File             `json:"-"`
+	AllowedMentions  *AllowedMentions    `json:"allowed_mentions,omitempty"`
+	Flags            *MessageFlags       `json:"flags,omitempty"`
+	EnforceNonce     bool                `json:"enforce_nonce,omitempty"`
 }
 
 func (m *messageBuilderImpl) SetEnforceNonce(enforceNonce bool) MessageBuilder {
@@ -148,14 +149,14 @@ func (m *messageBuilderImpl) RemoveEmbed(i int) MessageBuilder {
 	return m
 }
 
-func (m *messageBuilderImpl) SetContainerComponents(containerComponents ...ContainerComponent) MessageBuilder {
-	m.Components = &containerComponents
+func (m *messageBuilderImpl) SetComponents(components ...LayoutComponent) MessageBuilder {
+	m.Components = &components
 	return m
 }
 
-func (m *messageBuilderImpl) SetContainerComponent(i int, container ContainerComponent) MessageBuilder {
+func (m *messageBuilderImpl) SetComponent(i int, container LayoutComponent) MessageBuilder {
 	if m.Components == nil {
-		m.Components = &[]ContainerComponent{}
+		m.Components = &[]LayoutComponent{}
 	}
 	if len(*m.Components) > i {
 		(*m.Components)[i] = container
@@ -165,30 +166,30 @@ func (m *messageBuilderImpl) SetContainerComponent(i int, container ContainerCom
 
 func (m *messageBuilderImpl) AddActionRow(components ...InteractiveComponent) MessageBuilder {
 	if m.Components == nil {
-		m.Components = &[]ContainerComponent{}
+		m.Components = &[]LayoutComponent{}
 	}
-	*m.Components = append(*m.Components, ActionRowComponent(components))
+	*m.Components = append(*m.Components, NewActionRow(components...))
 	return m
 }
 
-func (m *messageBuilderImpl) AddContainerComponents(containers ...ContainerComponent) MessageBuilder {
+func (m *messageBuilderImpl) AddComponents(components ...LayoutComponent) MessageBuilder {
 	if m.Components == nil {
-		m.Components = &[]ContainerComponent{}
+		m.Components = &[]LayoutComponent{}
 	}
-	*m.Components = append(*m.Components, containers...)
+	*m.Components = append(*m.Components, components...)
 	return m
 }
 
-func (m *messageBuilderImpl) RemoveContainerComponent(i int) MessageBuilder {
+func (m *messageBuilderImpl) RemoveComponent(i int) MessageBuilder {
 	if m.Components == nil {
-		m.Components = &[]ContainerComponent{}
+		m.Components = &[]LayoutComponent{}
 	}
 	*m.Components = append((*m.Components)[:i], (*m.Components)[i+1:]...)
 	return m
 }
 
-func (m *messageBuilderImpl) ClearContainerComponents() MessageBuilder {
-	return m.SetContainerComponents()
+func (m *messageBuilderImpl) ClearComponents() MessageBuilder {
+	return m.SetComponents()
 }
 
 func (m *messageBuilderImpl) AddStickers(stickerIds ...snowflake.ID) MessageBuilder {
@@ -303,6 +304,18 @@ func (m *messageBuilderImpl) SetSuppressEmbeds(suppressEmbeds bool) MessageBuild
 		*m.Flags = m.Flags.Add(MessageFlagSuppressEmbeds)
 	} else {
 		*m.Flags = m.Flags.Remove(MessageFlagSuppressEmbeds)
+	}
+	return m
+}
+
+func (m *messageBuilderImpl) SetIsComponentsV2(isComponentsV2 bool) MessageBuilder {
+	if m.Flags == nil {
+		m.Flags = new(MessageFlags)
+	}
+	if isComponentsV2 {
+		*m.Flags = m.Flags.Add(MessageFlagIsComponentsV2)
+	} else {
+		*m.Flags = m.Flags.Remove(MessageFlagIsComponentsV2)
 	}
 	return m
 }
