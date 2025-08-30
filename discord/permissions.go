@@ -65,6 +65,7 @@ const (
 	_
 	PermissionSendPolls
 	PermissionUseExternalApps
+	PermissionPinMessages
 
 	PermissionsAllText = PermissionCreateInstantInvite |
 		PermissionManageChannels |
@@ -89,7 +90,8 @@ const (
 		PermissionUseEmbeddedActivities |
 		PermissionSendVoiceMessages |
 		PermissionSendPolls |
-		PermissionUseExternalApps
+		PermissionUseExternalApps |
+		PermissionPinMessages
 
 	PermissionsAllVoice = PermissionCreateInstantInvite |
 		PermissionManageChannels |
@@ -245,6 +247,7 @@ var permissions = map[Permissions]string{
 	PermissionSendVoiceMessages:                "SEND_VOICE_MESSAGES",
 	PermissionSendPolls:                        "SEND_POLLS",
 	PermissionUseExternalApps:                  "USE_EXTERNAL_APPS",
+	PermissionPinMessages:                      "PIN_MESSAGES",
 }
 
 func (p Permissions) String() string {

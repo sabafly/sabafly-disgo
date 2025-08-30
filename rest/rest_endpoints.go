@@ -51,9 +51,7 @@ var (
 var (
 	GetGuild          = NewEndpoint(http.MethodGet, "/guilds/{guild.id}")
 	GetGuildPreview   = NewEndpoint(http.MethodGet, "/guilds/{guild.id}/preview")
-	CreateGuild       = NewEndpoint(http.MethodPost, "/guilds")
 	UpdateGuild       = NewEndpoint(http.MethodPatch, "/guilds/{guild.id}")
-	DeleteGuild       = NewEndpoint(http.MethodDelete, "/guilds/{guild.id}")
 	GetGuildVanityURL = NewEndpoint(http.MethodGet, "/guilds/{guild.id}/vanity-url")
 
 	CreateGuildChannel     = NewEndpoint(http.MethodPost, "/guilds/{guild.id}/channels")
@@ -215,9 +213,12 @@ var (
 	DeleteMessage      = NewEndpoint(http.MethodDelete, "/channels/{channel.id}/messages/{message.id}")
 	BulkDeleteMessages = NewEndpoint(http.MethodPost, "/channels/{channel.id}/messages/bulk-delete")
 
+	// Deprecated: Use GetChannelPins instead
 	GetPinnedMessages = NewEndpoint(http.MethodGet, "/channels/{channel.id}/pins")
-	PinMessage        = NewEndpoint(http.MethodPut, "/channels/{channel.id}/pins/{message.id}")
-	UnpinMessage      = NewEndpoint(http.MethodDelete, "/channels/{channel.id}/pins/{message.id}")
+
+	GetChannelPins = NewEndpoint(http.MethodGet, "/channels/{channel.id}/messages/pins")
+	PinMessage     = NewEndpoint(http.MethodPut, "/channels/{channel.id}/messages/pins/{message.id}")
+	UnpinMessage   = NewEndpoint(http.MethodDelete, "/channels/{channel.id}/messages/pins/{message.id}")
 
 	CrosspostMessage = NewEndpoint(http.MethodPost, "/channels/{channel.id}/messages/{message.id}/crosspost")
 
